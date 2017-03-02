@@ -1,9 +1,9 @@
 /*
-Data taken from:
-
-https://vincentarelbundock.github.io/Rdatasets/datasets
-
-"Waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA."
+p5 project by JN, 2017 mar 1
+Data for Old Faithful geyser in Yellowstone Park (which is in Wymoming & Montana) taken from:
+     https://vincentarelbundock.github.io/Rdatasets/datasets
+     "Waiting time between eruptions and the duration of the eruption for the Old Faithful geyser 
+     in Yellowstone National Park, Wyoming, USA."
 */
 
 
@@ -42,23 +42,21 @@ Datapoint.prototype.printMeOut = function () {
     console.log("time to next eruption, in min: " + this.timeToNext);
 }
 
+
 function preload() {
     // read in the csv
-    
-    // this line reads the local file - not happy-making for running the sketch unless it's over a proper server
-    // with HTTP requests
-    //table = loadTable("old-faithful.csv", "csv", "header");
-    
-    //...so we go to  the source!
     table = loadTable("https://vincentarelbundock.github.io/Rdatasets/csv/datasets/faithful.csv", "csv", "header");
     
+    // alternative is to read from a local file, using 
+    //      table = loadTable("old-faithful.csv", "csv", "header");
     /*
-    NOTE: this .csv is in the local folder for this sketch, but because it's running as a web page you'll need to have a server serving it to you
-    (because of sandboxed file i/o in browsers, for security reasons).
-    Best way to do this: run the sketch in Brackets and push the lightning-bolt symbol in the upper-right-corner (sets up a temporary local server).
-    Or you could view it over Montana.
+    NOTE: with .csv in local folder for a sketch, because it's running as a web page you'll need to have a 
+    server serving it to you (because of sandboxed file i/o in browsers, for security reasons).
+    Best way to do this: run the sketch in Brackets and push the lightning-bolt symbol in the upper-right-corner 
+    (sets up a temporary local server). Or you could view it over Montana.
     */
 }
+
 
 function setup() {
     canv = createCanvas(800, 600);
