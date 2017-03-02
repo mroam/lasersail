@@ -1,3 +1,11 @@
+notes: old sample javascript "for" loop
+var count;
+for(count = 0; count < 10; count++){
+     //document.write("Current Count : " + count + "<br />");
+}
+
+
+==========
 https://www.w3schools.com/js/js_objects.asp
 
 example object creation:
