@@ -25,3 +25,75 @@ function wahoo( ) {
   'use strict';
   // …
 }
+
+
+===============
+// ps: the following was all demonstrated and tested using http://repl.it
+// JN samples of class definition, constructors, and instantiation
+
+// Technique 1: create a prototype object (without functions, for storage efficiency)
+// and then add methods and create instances. Later we'll add functions (methods).
+var Ship = {
+  angle: 0,
+  velocity: 30
+}
+
+// adding a method to Ship
+Ship.sayStuff = function() {
+  console.log('my angle is ' + this.angle + ', and my vel is: ' + this.velocity);
+}
+
+// Instantiating some ships, using the "create( )" command.
+// Note: the instances do NOT have a "sayStuff( )" method stored within but can 
+// use any methods (such as "sayStuff( )") that are attached to their prototype
+// (".__proto__" is the link to the thing from which they were copied).
+var ship1 = Object.create(Ship);
+ship1.angle = 90;
+ship1.velocity= 45;
+
+var ship2 = Object.create(Ship);
+ship1.angle = 88;
+ship1.velocity= 33;
+
+// examples of calling methods...
+console.log('Ship objects saying stuff');
+ship1.sayStuff();
+ship2.sayStuff();
+
+// adding another function, just for fun.
+Ship.sayBoo = function() {
+  console.log('boo');
+}
+
+
+// Technique 2: create a loose, free-floating constructor function thing: it will 
+// act as a constructor and create fields in "new" objects.
+var OtherShip = function(angle, velocity) {
+  this.angle = angle
+  this.velocity = velocity;
+}
+
+// Adding a method to constructor's __proto__ 
+// Note: we're using the ".prototype." command to talk to existing constructor.
+OtherShip.prototype.sayStuff = function( ) {
+  console.log('my angle is ' + this.angle + ', and my vel is: ' + this.velocity);
+}
+
+// Instantiating ships using technique 2, with "new"
+var otherShip1 = new OtherShip(23, 100);
+var otherShip2 = new OtherShip(33, 200);
+
+// Calling methods
+console.log('OtherShip objects saying stuff');
+otherShip1.sayStuff();
+otherShip2.sayStuff();
+
+// big fun, looking at prototypes and instances...
+ console.log('logging stuff');
+// console.log(Ship);
+// console.log(ship1);
+// console.log(ship1.__proto__)
+console.log(OtherShip);
+console.log(otherShip1);
+console.log(otherShip1.__proto__);
+//ship1.sayBoo();
