@@ -44,7 +44,14 @@ Datapoint.prototype.printMeOut = function () {
 
 function preload() {
     // read in the csv
-    table = loadTable("old-faithful.csv", "csv", "header");
+    
+    // this line reads the local file - not happy-making for running the sketch unless it's over a proper server
+    // with HTTP requests
+    //table = loadTable("old-faithful.csv", "csv", "header");
+    
+    //...so we go to  the source!
+    table = loadTable("https://vincentarelbundock.github.io/Rdatasets/csv/datasets/faithful.csv", "csv", "header");
+    
     /*
     NOTE: this .csv is in the local folder for this sketch, but because it's running as a web page you'll need to have a server serving it to you
     (because of sandboxed file i/o in browsers, for security reasons).
