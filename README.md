@@ -5,7 +5,8 @@ This repo is at
 http://github.com/mroam/lasersail and we have put more information at https://sites.google.com/a/saintannsny.org/solar-sail-2016/
 
 Here's a link to our live interactive web app! https://rawgit.com/mroam/lasersail/master/index.html 
-This is a quickly refreshing link showing the latest version, but isn't meant for heavy traffic so please don't point any apps at this link that could generated repeated frequent traffic. (If that happens, we get throttled and warned and finally the link is killed.):
+This is a quickly refreshing link showing the latest version, but isn't meant for heavy traffic so please don't point any apps at this link that could generated repeated frequent traffic. 
+(If that happens, rawgit will throttle us, warn us, and finally kill the link.)
 https://rawgit.com/mroam/lasersail/master/index.html
 
 
