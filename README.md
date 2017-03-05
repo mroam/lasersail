@@ -1,11 +1,10 @@
 # lasersail
-use lasers to push a spacecraft to Alpha Centauri
+Simulation and analysis of lasers pushing laser-sail spacecraft to Alpha Centauri
 
-This repo is at 
-http://github.com/mroam/lasersail and we have put more information at https://sites.google.com/a/saintannsny.org/solar-sail-2016/
+This repo is http://github.com/mroam/lasersail and we have more information at https://sites.google.com/a/saintannsny.org/solar-sail-2016/
 
-Here's a link to our live interactive web app! https://rawgit.com/mroam/lasersail/master/index.html 
-This is a quickly refreshing link showing the latest version, but isn't meant for heavy traffic so please don't point any apps at this link that could generated repeated frequent traffic. 
+Here's our live interactive web app! https://rawgit.com/mroam/lasersail/master/index.html 
+This is a quickly refreshing link showing the latest app version, but isn't meant for heavy traffic so please don't point any apps at this link that could generated repeated frequent traffic. 
 (If that happens, rawgit will throttle us, warn us, and finally kill the link.)
 https://rawgit.com/mroam/lasersail/master/index.html
 
