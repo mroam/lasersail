@@ -1,5 +1,5 @@
 /*
-p5 project by JN, 2017 mar 1
+p5 project by Jascha Narveson, 2017 mar 1
 Data for Old Faithful geyser in Yellowstone Park (which is in Wymoming & Montana) taken from:
      https://vincentarelbundock.github.io/Rdatasets/datasets
      "Waiting time between eruptions and the duration of the eruption for the Old Faithful geyser 
