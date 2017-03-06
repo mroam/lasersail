@@ -1,11 +1,19 @@
 // Thanks to Jascha for showing me how to use p5
 
 // globals:
+//   user interface...
 var canv;
 var xSlider, ySlider;
 var diameterField;
 var diameter;
+
+// simulation model
 var locations = [];
+
+// charts
+var chartMilliseconds = {};
+var chartSeconds = {};
+
 
 // extra factors to add in later: expansion of universe, relativistic effects, etc
 
