@@ -1,4 +1,4 @@
-// Thanks to Jascha for showing me how to use p5
+// Thanks to Jascha Narveson for showing me how to use p5, Feb-Mar 2017
 
 // globals:
 //   user interface...
