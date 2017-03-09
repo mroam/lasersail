@@ -56,7 +56,7 @@ function setup( ) {
     launchButton = createButton('Launch!');
     launchButton.parent("launchButton");
     // launchButton.position(19, 19);
-    launchButton.mousePressed(flyToAlphaCentauri);
+    launchButton.mouseReleased(flyToAlphaCentauri);
     diameter = 30;
 } // setup( )
 
