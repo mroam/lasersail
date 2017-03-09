@@ -25,7 +25,7 @@ var chartHours = {};
 var chartDays = {};
 var chartYears = {};
 
-var bgColor = color(77, 23, 255);
+var bgColor;  // can't use "color( )" until p5 is running, so init this in setup( )
 
 
 // extra factors to add in later: expansion of universe, relativistic effects, etc
@@ -39,6 +39,7 @@ function setup( ) {
     // and http://p5js.org/reference/
     // and  http://p5js.org/reference/#/p5/createSlider
     //  createSlider(min,max,[value],[step])
+    bgColor = color(77, 23, 255);
 
     xSlider = createSlider(0, 800, 400, 5);
     xSlider.parent("xslider");
