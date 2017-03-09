@@ -22,6 +22,8 @@ var locations = [];
 var chartMilliseconds = {};
 var chartSeconds = {};
 
+var bgColor = color(77, 23, 255);
+
 
 // extra factors to add in later: expansion of universe, relativistic effects, etc
 
@@ -53,18 +55,17 @@ function setup( ) {
     // launchButton.position(19, 19);
     launchButton.mousePressed(flyToAlphaCentauri);
     diameter = 30;
-    
-    background( /*canvas color, can rgb*/ 77, 23, 255);
+} // setup( )
 
-}
 
 function draw( ) {
+    background( /*canvas color, can rgb*/ bgColor);
     noStroke( /* hides outline */ );
     fill( /*rgb*/ 255, 0, 0);
     ellipse( /*x*/ width / 3, /*y*/ height / 3, /*w and h*/ diameter);
     fill(200, 255, 0);
     ellipse( /*x*/ xSlider.value(), /*y*/ ySlider.value(), /*w and h*/ diameter)
-}
+} // draw( )
 
 
 // This will 
@@ -74,16 +75,16 @@ function flyToAlphaCentauri( ) {
     var pos = 0;   // []eventually this will be x,y,z triple
     locations.push(pos);
     // for 
-    var val = random(255);  // just to see if button worked
+    bgColor = color(random(255), random(255), random(255));  // just to see if button worked
     background(val);
-}
+} // flyToAlphaCentauri
 
 
 function myFieldListener( ) {
     // can also coerce "this.value( )" from string to number by multiplying by 1
     diameter = Number(this.value( )); // "this" is the field that owns this listener 
     // gotta validate!!
-}
+} // myFieldListener
 
 
 function test( ) {
