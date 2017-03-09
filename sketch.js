@@ -6,6 +6,7 @@ var canv;
 var xSlider, ySlider;
 var diameterField;
 var diameter;
+var launchButton;
 
 // simulation model
 var locations = [];
@@ -40,6 +41,9 @@ function setup( ) {
     diameterField.input(myFieldListener);
     diameterField.parent("diamField");  // "diamField" is html ID
 
+    launchButton = createButton('click me');
+    // launchButton.position(19, 19);
+    launchButton.mousePressed(flyToAlphaCentauri);
     diameter = 30;
 }
 
@@ -59,6 +63,8 @@ function flyToAlphaCentauri( ) {
     var pos = 0;
     locations.push(pos);
     // for 
+    var val = random(255);
+    background(val);
 }
 
 
