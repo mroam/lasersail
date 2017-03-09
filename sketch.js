@@ -21,6 +21,9 @@ var locations = [];
 // charts
 var chartMilliseconds = {};
 var chartSeconds = {};
+var chartHours = {};
+var chartDays = {};
+var chartYears = {};
 
 var bgColor = color(77, 23, 255);
 
@@ -76,7 +79,6 @@ function flyToAlphaCentauri( ) {
     locations.push(pos);
     // for 
     bgColor = color(random(255), random(255), random(255));  // just to see if button worked
-    background(val);
 } // flyToAlphaCentauri
 
 
