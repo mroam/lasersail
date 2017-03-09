@@ -8,6 +8,11 @@ var diameterField;
 var diameter;
 var launchButton;
 
+
+// constants, from wolframalpha.com
+var c = 299792000; // 299,792 km/second
+var distToAlphaCentauri = 41530000000; //  4.39 lightyears = 41,530,000,000,000 km
+
 // simulation model
 var locations = [];
 
@@ -41,7 +46,8 @@ function setup( ) {
     diameterField.input(myFieldListener);
     diameterField.parent("diamField");  // "diamField" is html ID
 
-    launchButton = createButton('click me');
+    launchButton = createButton('Launch!');
+    launchButton.parent("launchButton");
     // launchButton.position(19, 19);
     launchButton.mousePressed(flyToAlphaCentauri);
     diameter = 30;
@@ -58,12 +64,13 @@ function draw( ) {
 
 
 // This will 
+// 
 function flyToAlphaCentauri( ) {
-    // we start at position 0, and alpha centauri is at pos (7 light years in meters)
-    var pos = 0;
+    // we start at position 0, and alpha centauri is at pos (4.7 light years in meters)
+    var pos = 0;   // []eventually this will be x,y,z triple
     locations.push(pos);
     // for 
-    var val = random(255);
+    var val = random(255);  // just to see if button worked
     background(val);
 }
 
