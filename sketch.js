@@ -13,8 +13,10 @@ var launchButton;
 var c = 299792000; // 299,792 km/second
 var distToAlphaCentauri = 41530000000; //  4.39 lightyears = 41,530,000,000,000 km
 
+
 // simulation model
 var locations = [];
+
 
 // charts
 var chartMilliseconds = {};
@@ -51,10 +53,12 @@ function setup( ) {
     // launchButton.position(19, 19);
     launchButton.mousePressed(flyToAlphaCentauri);
     diameter = 30;
+    
+    background( /*canvas color, can rgb*/ 77, 23, 255);
+
 }
 
 function draw( ) {
-    background( /*canvas color, can rgb*/ 77, 23, 255);
     noStroke( /* hides outline */ );
     fill( /*rgb*/ 255, 0, 0);
     ellipse( /*x*/ width / 3, /*y*/ height / 3, /*w and h*/ diameter);
