@@ -18,6 +18,33 @@ var distToAlphaCentauri = 41530000000; //  4.39 lightyears = 41,530,000,000,000 
 var locations = [];
 
 
+// our "SailCraft" object, being created using JN demo "technique 1" (prototype object
+// to which methods are added later, has no constructor since we're only going to have 1)
+var SailCraft = {
+    massGrams: 100,
+    surfaceAreaM2: 1.0, // square meters
+    temperatureC: 0, // in celsius. We need to know radiation rate
+    
+    x: 0, // km to right of travel path
+    y: 0, // km forward of travel path (looking down onto craft from Alpha Centauri)
+    z: 0, // km distance from earth to Alpha Centauri
+    
+    dx: 0, // km/sec
+    dy: 0, // km/sec
+    dz: 10, // km/sec straight toward alpha centauri
+    
+    angleOfCraft: 0,  // this has to be specified in some matrix way, no?
+    dxyRot: 0, // degrees/sec relative to spacecraft's axes, not to travel planes
+    dxzRot: 0, // degrees/sec relative to spacecraft's axes, not to travel planes
+    dzyRot: 0 // degrees/sec relative to spacecraft's axes, not to travel planes
+    
+    // might remember elbow bends of sail sometime
+};
+
+
+
+
+
 // charts
 var chartMilliseconds = {};
 var chartSeconds = {};
@@ -58,7 +85,13 @@ function setup( ) {
     launchButton.parent("launchButton");
     // launchButton.position(19, 19);
     launchButton.mouseReleased(flyToAlphaCentauri);
-    diameter = 30;
+    diameter = 30;  // part of original test, not part of lasersail
+    
+    var ship1 = Object.create(SailCraft);
+    // adding a method to SailCraft
+    SailCraft.sayStuff = function() {
+      console.log('my distance from earth is ' + this.z + ', and my vel is: ' + this.dz);
+    }
 } // setup( )
 
 
@@ -91,5 +124,5 @@ function myFieldListener( ) {
 
 
 function test( ) {
-    console.log("the myFieldListener isn't checking for numerical input!!")
+    console.log("the myFieldListener isn't checking for numerical input!!");
 }
