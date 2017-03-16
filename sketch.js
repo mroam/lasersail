@@ -16,16 +16,20 @@ var distToAlphaCentauri = 41530000000; //  4.39 lightyears = 41,530,000,000,000 
 
 // simulation model
 var locations = [];
+var moneyAvail = 1000.0; // for sailsize, onboard fuel, laser-burn-fuel (choose vertex angle and power and burnDuration)
 
 
 // our "SailCraft" object, being created using JN demo "technique 1" (prototype object
 // to which methods are added later, has no constructor since we're only going to have 1)
 var SailCraft = {
-    massGrams: 100,
-    surfaceAreaM2: 1.0, // square meters
+    massGrams: 100, // changes as user buys sailsize and onboard nav fuel, perhaps load up with equipment
+    surfaceAreaM2: 1.0, // square meters, variable
     temperatureC: 0, // in celsius. We need to know radiation rate
+    maxTemperatureToleranceC: 200,
+    minTemperatureToleranceC: -100, 
+    dTemperatureCSec: 0.1, // radiation, is factor of temp
     
-    x: 0, // km to right of travel path
+    x: 0, // loc of ctr of mass, km to right of travel path
     y: 0, // km forward of travel path (looking down onto craft from Alpha Centauri)
     z: 0, // km distance from earth to Alpha Centauri
     
@@ -34,15 +38,20 @@ var SailCraft = {
     dz: 10, // km/sec straight toward alpha centauri
     
     angleOfCraft: 0,  // this has to be specified in some matrix way, no?
-    dxyRot: 0, // degrees/sec relative to spacecraft's axes, not to travel planes
-    dxzRot: 0, // degrees/sec relative to spacecraft's axes, not to travel planes
-    dzyRot: 0 // degrees/sec relative to spacecraft's axes, not to travel planes
+    dTheta: 0, // turn per second in degrees
+    dOmega: 0  // dTheta/dtime
+    //dxyRot: 0, // degrees/sec relative to spacecraft's axes, not to travel planes
+    //dxzRot: 0, // degrees/sec relative to spacecraft's axes, not to travel planes
+   // dzyRot: 0 // degrees/sec relative to spacecraft's axes, not to travel planes
     
-    // might remember elbow bends of sail sometime
+    // might remember bend of two elbows e1,e2 of sail, equidistant from center, --E--c--E-- sometime: 
+    // user specifies length -- "L"
+    // 1g of equipment
 };
 
 
-
+// laser supplies pressure as pascal (newton/sqMeter) [newton = 1kg * 1m/sec^2] (as force/area )
+// force 
 
 
 // charts
