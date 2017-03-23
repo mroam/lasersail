@@ -223,7 +223,7 @@ function flyToAlphaCentauri() {
     for (count = 0; count < 10; ++count) {
         //document.write("Current Count : " + count + "<br />");
         ship1.flyALittle(secsBetweenMoves);
-        ship1.sayStuff(); // goes to console
+        ship1.sayStuff(); // goes to browser console (in safari activate menu Develop:ShowWebInspector)
     }
 
 } // flyToAlphaCentauri
@@ -240,6 +240,7 @@ function myDiameterFieldListener() {
 function myLaserFrequencyFieldListener() {
     // can also coerce "this.value()" from string to number by multiplying by 1
     var newLaserFrequency = Number(this.value());
+    console.log("new laserFreq=" + newLaserFrequency);
     // "this" is the field that owns this listener 
     // gotta validate!!
     if ((newLaserFrequency >= laserFrequencyMin) && (newLaserFrequency <= laserFrequencyMax)) {
@@ -254,8 +255,11 @@ function myLaserIntensityFieldListener() {
     // "this" is the field that owns this listener 
     // gotta validate!!
     if ((newLaserIntensity >= laserIntensityMin) && (newLaserIntensity <= laserIntensityMax)) {
+        console.log("new wannabe laserIntensity=" + newLaserIntensity);
         laserIntensity = newLaserIntensity;
         laserIntensitySlider.value(newLaserIntensity);
+    } else {
+        console.log("rejected laserIntensity '" + this.value() + "'");
     }
 } // myLaserIntensityFieldListener
 
