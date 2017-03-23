@@ -3,9 +3,16 @@
 // globals:
 //   user interface...
 var canv;
+
+// fool around test
 var xSlider, ySlider;
 var diameterField;
 var diameter;
+
+// mission setup
+var laserStrengthSlider;
+
+// mission controls
 var launchButton;
 
 
@@ -15,8 +22,11 @@ var distToAlphaCentauri = 41530000000; //  4.39 lightyears = 41,530,000,000,000 
 
 
 // simulation model
+var ship1;  // gets created in "setup()"
 var locations = [];
 var moneyAvail = 1000.0; // for sailsize, onboard fuel, laser-burn-fuel (choose vertex angle and power and burnDuration)
+var laserStrength = 1.0; // units??
+
 
 
 // our "SailCraft" object, being created using JN demo "technique 1" (prototype object
@@ -29,15 +39,15 @@ var SailCraft = {
     minTemperatureToleranceC: -100, 
     dTemperatureCSec: 0.1, // radiation, is factor of temp
     
-    x: 0, // loc of ctr of mass, km to right of travel path
-    y: 0, // km forward of travel path (looking down onto craft from Alpha Centauri)
-    z: 0, // km distance from earth to Alpha Centauri
+    x: 0, // loc of ctr of mass, km fr Earth to A.C. along travel path
+    y: 0, // loc of ctr of mass, off of path to A.C
     
-    dx: 0, // km/sec
-    dy: 0, // km/sec
-    dz: 10, // km/sec straight toward alpha centauri
+    dx: 10, // km/sec straight toward alpha centauri
+    dy: 0.0, // km/sec off path to alpha c.
     
-    angleOfCraft: 0,  // this has to be specified in some matrix way, no?
+    angleOfCraft: 0,  // aka theta, craft's turn in degrees with 0
+    // being directly on path to AC
+    // for 3D use matrix or angles, no?
     dTheta: 0, // turn per second in degrees
     dOmega: 0  // dTheta/dtime
     //dxyRot: 0, // degrees/sec relative to spacecraft's axes, not to travel planes
@@ -87,21 +97,42 @@ function setup( ) {
 
     diameterField = createInput(''); // and Input is a live field
     diameterField.value(560);
-    diameterField.input(myFieldListener);
+    diameterField.input(myDiameterFieldListener);
     diameterField.parent("diamField");  // "diamField" is html ID
+    
+    // mission setup
+    laserStrengthSlider = createSlider(0, 800, 400, 5);
+    laserStrengthSlider.parent("laserStrengthSlider");
+    laserStrengthSlider.size(/*length*/ 100);
+     
+    laserStrengthField = createInput('');
+    laserStrengthField.value(laserStrength);
+    laserStrengthField.input(myLaserStrengthFieldListener);
+    laserStrengthField.parent("laserStrengthField");
 
+
+    // mission control
     launchButton = createButton('Launch!');
     launchButton.parent("launchButton");
     // launchButton.position(19, 19);
     launchButton.mouseReleased(flyToAlphaCentauri);
     diameter = 30;  // part of original test, not part of lasersail
     
-    var ship1 = Object.create(SailCraft);
-    // adding a method to SailCraft
-    SailCraft.sayStuff = function() {
-      console.log('my distance from earth is ' + this.z + ', and my vel is: ' + this.dz);
-    }
+    setupSailCraft( );
 } // setup( )
+
+
+function setupSailCraft( ) {
+    ship1 = Object.create(SailCraft);
+    // adding a method to SailCraft in general
+    SailCraft.sayStuff = function() {
+      console.log('my distance from earth is ' + this.x + ', and my vel toward Alpha C. is: ' + this.dx);
+    }
+    SailCraft.flyALittle = function flyALittle( secondsSincePrevMove ) {
+        // this method will belong to ship1 aka "this"
+        this.x = this.x + 5; // fake
+    }
+} // setupSailCraft( )
 
 
 function draw( ) {
@@ -122,14 +153,37 @@ function flyToAlphaCentauri( ) {
     locations.push(pos);
     // for 
     bgColor = color(random(255), random(255), random(255));  // just to see if button worked
+    
+    var secsBetweenMoves = 1; 
+    var count;
+    for(count = 0; count < 10; count++){
+         //document.write("Current Count : " + count + "<br />");
+        flyALittle( secsBetweenMoves );
+    }
+
+    
 } // flyToAlphaCentauri
 
 
-function myFieldListener( ) {
+
+
+function myDiameterFieldListener( ) {
     // can also coerce "this.value( )" from string to number by multiplying by 1
     diameter = Number(this.value( )); // "this" is the field that owns this listener 
     // gotta validate!!
-} // myFieldListener
+} // myDiameterFieldListener
+
+function myLaserStrengthFieldListener( ) {
+    // can also coerce "this.value( )" from string to number by multiplying by 1
+    var newLaserStrength = Number(this.value( )); 
+    // "this" is the field that owns this listener 
+    // gotta validate!!
+    if ((newLaserStrength >= laserStrengthMin) && 
+        (newLaserStrength <= laserStrengthMax)) {
+        laserStrength = newLaserStrength;
+        laserStrengthSlider.value(newLaserStrength);
+    }
+} // myLaserStrengthFieldListener
 
 
 function test( ) {
