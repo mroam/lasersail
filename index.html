@@ -3,7 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>mike-learns-p5-28feb2017a</title>
+    <title>LaserSail</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
+<!-- for iphone  
+	note: "maximum-scale=5.0, minimum-scale=0.1" is possible but unnecessary?
+	note: "user-scalable=true," doesn't work, actually disallows scaling. -->
+
     <script src="libraries/p5.js" type="text/javascript"></script>
 
     <script src="libraries/p5.dom.js" type="text/javascript"></script>
@@ -15,12 +20,20 @@
         .controls {
             display: inline-block;
         }
+        header, section, footer, article {
+        	border: thin solid red; 
+			padding:0.5em;
+			border-radius: 5px;  /* would em work? */
+        }
+        header, footer { background: #ccc; font-size:0.75em; }
     </style>
 </head>
 
 <body>
     <header>
         <h1>Laser Sail</h1>
+        <nav><a href="https://sites.google.com/a/saintannsny.org/solar-sail-2016/">GooDrive</a> &amp; 
+        <a href="http://github.com/mroam/lasersail">Github</a></nav>
     </header>
     
     <article>
@@ -48,13 +61,15 @@
         <div class="controls" id="laserFrequencyField">
         </div>
         <p class="controls">terahertz (10<sup>12</sup>)</p>
+        
         <br>
         <p class="controls">LaserIntensity=</p>
         <div class="controls" id="laserIntensitySlider">
         </div>
         <div class="controls" id="laserIntensityField">
-        <p class="controls">exaW/m<sup>2</sup> (10<sup>18</sup></p>
         </div>
+        <p class="controls">exaW/m<sup>2</sup> (10<sup>18</sup>)</p>
+        
     </article>
     
     <article>
