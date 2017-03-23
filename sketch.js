@@ -204,6 +204,7 @@ function draw() {
     fill(200, 255, 0);
     ellipse( /*x*/xSlider.value(), /*y*/ySlider.value(), /*w and h*/ diameter);
     
+    laserFrequencyField.value(laserFrequencySlider.value());
     laserIntensityField.value(laserIntensitySlider.value());
 } // draw()
 
