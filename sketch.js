@@ -100,7 +100,7 @@ SailCraft.sayStuff = function () {
 
 SailCraft.flyALittle = function (secondsSincePrevMove) {
     // this method will belong to ship1 aka "this"
-    this.x = this.x + (speedx * secondsSincePrevMove); // fake
+    this.x = this.x + (this.speedx * secondsSincePrevMove); // fake
     this.speedx = this.speedx + (this.laserFakePowerPerSec * secondsSincePrevMove); // fake!
     // can I call other functions, e.g. 
     //     this.speedx += (this.laser() * secondsSincePrevMove);
