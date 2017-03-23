@@ -17,6 +17,10 @@ var laserIntensitySlider; // range is laserIntensityMin&Max
 // mission controls
 var launchButton;
 
+// results
+var estTravelTimeField;
+var missTargetByField;
+
 
 // constants, from wolframalpha.com
 var c = 299.792; // in Mm/sec, = 299,792km/s = 299792000m/s.
@@ -182,6 +186,12 @@ function setup() {
     // launchButton.position(19, 19);
     launchButton.mouseReleased(flyToAlphaCentauri);
     diameter = 30; // part of original test, not part of lasersail
+    
+    // results
+    estTravelTimeField = createInput('');
+    estTravelTimeField.parent("estTravelTimeField");
+    missTargetByField = createInput('');
+    missTargetByField.parent("missTargetByField");
 
     ship1 = setupSailCraft(0, 0);/*startloc*/
 } // setup()
@@ -226,6 +236,11 @@ function flyToAlphaCentauri() {
         ship1.flyALittle(secsBetweenMoves);
         ship1.sayStuff(); // goes to browser console (in safari activate menu Develop:ShowWebInspector)
     }
+    // distToAlphaCentauri is in Mm (megameters = million meters)
+    // ship1 speedx is in km/sec so km is 1000 times smaller than Mm)
+    // and 31,558,150 seconds per year
+    estTravelTimeField.value( distToAlphaCentauri / (ship1.speedx * 31558150.0 * 1000.0));
+    missTargetByField.value( ship1.speedy * 31558150.0 * 1000.0 );
 
 } // flyToAlphaCentauri
 
