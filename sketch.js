@@ -158,10 +158,9 @@ function flyToAlphaCentauri( ) {
     var count;
     for(count = 0; count < 10; count++){
          //document.write("Current Count : " + count + "<br />");
-        flyALittle( secsBetweenMoves );
+        ship1.flyALittle( secsBetweenMoves );
     }
 
-    
 } // flyToAlphaCentauri
 
 
