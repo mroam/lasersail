@@ -193,8 +193,6 @@ function setupSailCraft(inx, iny) {
     temp.x = inx;
     temp.y = iny;
     return temp;
-    // adding a method to SailCraft in general
-
 } // setupSailCraft()
 
 
@@ -205,6 +203,8 @@ function draw() {
     ellipse( /*x*/ width / 3, /*y*/ height / 3, /*w and h*/ diameter);
     fill(200, 255, 0);
     ellipse( /*x*/xSlider.value(), /*y*/ySlider.value(), /*w and h*/ diameter);
+    
+    laserIntensityField.value(laserIntensitySlider.value());
 } // draw()
 
 
