@@ -42,7 +42,7 @@ var laserFrequencyMax = 1909.506; // in terahertz
      // = 1 909 506 000 000 000 hertz
 
 var laserIntensityMin =  0.0; // in W/m^2
-var laserIntensityMax =  1000.0;  // in exaWatt = 10^18 Watt,
+var laserIntensityMax =  1000.0;  // in exaWatt = 10^18 Watt/m^2,
 // so 1.0 = petaWatt = 10^15
 // entering era of zettawatt (10^21 W/cm^2) = 10^17 W/m^2
     // Laser Intensity or Brightness aka "Intensity" (approx power?)
@@ -159,7 +159,7 @@ function setup() {
     diameterField.parent("diamField"); // "diamField" is html ID
 
     // mission setup
-    laserFrequencySlider = createSlider(laserFrequencyMin, laserFrequencyMax, laserFrequency, /*step*/5);
+    laserFrequencySlider = createSlider(laserFrequencyMin, laserFrequencyMax, laserFrequency, /*step*/1);
     laserFrequencySlider.parent("laserFrequencySlider");
     laserFrequencySlider.size(100);/*length*/ 
     laserFrequencyField = createInput('');
@@ -167,7 +167,7 @@ function setup() {
     laserFrequencyField.input(myLaserFrequencyFieldListener);
     laserFrequencyField.parent("laserFrequencyField");
 
-    laserIntensitySlider = createSlider(laserIntensityMin, laserIntensityMax, laserIntensity, /*step*/5);
+    laserIntensitySlider = createSlider(laserIntensityMin, laserIntensityMax, laserIntensity, /*step*/1);
     laserIntensitySlider.parent("laserIntensitySlider");
     laserIntensitySlider.size(100);/*length*/ 
     laserIntensityField = createInput('');
@@ -238,6 +238,10 @@ function myDiameterFieldListener() {
     // gotta validate!!
 } // myDiameterFieldListener
 
+// following is a bit useless because the field isn't really typable
+// now that the slider value gets constantly drawn into field.
+// The validation code in here should get put somewhere useful, I 
+// suppose, though the slider is restricted to proper values, no?
 function myLaserFrequencyFieldListener() {
     // can also coerce "this.value()" from string to number by multiplying by 1
     var newLaserFrequency = Number(this.value());
@@ -250,6 +254,10 @@ function myLaserFrequencyFieldListener() {
     }
 } // myLaserFrequencyFieldListener
 
+// following is a bit useless because the field isn't really typable
+// now that the slider value gets constantly drawn into field.
+// The validation code in here should get put somewhere useful, I 
+// suppose, though the slider is restricted to proper values, no?
 function myLaserIntensityFieldListener() {
     // can also coerce "this.value()" from string to number by multiplying by 1
     var newLaserIntensity = Number(this.value());
