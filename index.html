@@ -20,40 +20,59 @@
         .controls {
             display: inline-block;
         }
+        section { 
+			width:15em; padding:0.3em;
+			border:2px solid #963; /* brown */
+			display:inline-block; /* was (crazy?) "inline-block"; 
+			/* firefox &lt;3 also needs float: float:left; */
+		}
+		#main {
+			width:75%; min-width:50em; max-width:60em;
+		}
+		notmain {
+			width:20%; 
+			min-width:10em; 
+			max-width:20em;
+		}
         header, section, footer, article {
+        	background: #ccf; /* light grey purple */
         	border: thin solid red; 
 			padding:0.5em;
 			border-radius: 5px;  /* would em work? */
         }
         header, footer { background: #ccc; font-size:0.75em; }
+        footer { 
+        	clear:left; 
+        	/* see https://www.w3schools.com/css/css_float.asp */ 
+        }
     </style>
 </head>
 
 <body>
-    <header>
+    <header role="banner">
         <h1>Laser Sail</h1>
-        <nav><a href="http://github.com/mroam/lasersail">Github</a> (&amp; 
+        <nav><a href="http://github.com/mroam/lasersail">Github.com/mroam/lasersail</a> (&amp; 
         <a href="https://sites.google.com/a/saintannsny.org/solar-sail-2016/">GooDrive</a> for Saint Ann's School members)</nav>
     </header>
     
-    <article>
-       <h2>Fool Around Testing Controls</h2>
-        <div>
-            <p class="controls">X=</p>
-            <div class="controls" id="xslider">
-            </div>
-            <!--br-->
-            <p class="controls">Y=</p>
-            <div class="controls" id="yslider">
-            </div>
-            <p class="controls">Diameter=</p>
-            <div class="controls" id="diamField">
-            </div>
-  
-        </div>
-    </article>
     
-    <article>
+    
+     <section role="main" id="main" style="clear:left;">
+        <h2>Results</h2>
+        <p class="controls">Estimated Travel Time:</p>
+        <div class="controls" id="estTravelTimeField">
+        </div>
+        <p class="controls">Years.</p>
+        <p class="controls">Miss the target by:</p>
+        <div class="controls" id="missTargetByField">
+        </div>
+        <p class="controls">Million Meters.</p>
+       <div id="p5pix"></div>
+    </section>
+    
+        
+    
+    <section role="toolbar" style="width:35em;float:left;">
         <h2>Setup</h2>
         <p class="controls">LaserFrequency=</p>
         <div class="controls" id="laserFrequencySlider">
@@ -70,25 +89,30 @@
         </div>
         <p class="controls">exaW/m<sup>2</sup> (10<sup>18</sup>).</p>
         
-    </article>
-    
-    <article>
-        <h2>Mission Operation</h2>
+        <hr />
+                <h2>Mission Operation</h2>
         <div class="controls" id="launchButton"></div>
-    </article>
-            
-    <article>
-        <h2>Results</h2>
-        <p class="controls">Estimated Travel Time:</p>
-        <div class="controls" id="estTravelTimeField">
+
+    </section>
+    
+     <section role="toolbar" class="notmain" style="width:10em;float:left;">
+       <h2>Silly Test Controls</h2>
+        <div>
+            <p class="controls">X=</p>
+            <div class="controls" id="xslider">
+            </div>
+            <br>
+            <p class="controls">Y=</p>
+            <div class="controls" id="yslider">
+            </div>
+            <p class="controls">Diameter=</p>
+            <div class="controls" id="diamField">
+            </div>
+  
         </div>
-        <p class="controls">Years.</p>
-        <p class="controls">Miss the target by:</p>
-        <div class="controls" id="missTargetByField">
-        </div>
-        <p class="controls">Million Meters.</p>
-       <div id="p5pix"></div>
-    </article>
+    </section>
+           
+   
     
     <footer>
     <p>References: <a href="http://p5js.org/reference/" title="ref">p5js.org/reference/</a> 

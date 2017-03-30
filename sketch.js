@@ -164,18 +164,20 @@ function setup() {
     //  createSlider(min,max,[value],[step])
     bgColor = color(77, 23, 255);
 
-    xSlider = createSlider(0, 800, 400, 5);
+    xSlider = createSlider(/*min*/0, /*max*/800, /*startVal*/400, /*step*/5);
     xSlider.parent("xslider");
     // "xslider" is the html id for the div that will contain slider
-    xSlider.size(100);/*length*/
+    xSlider.size(100);/* length (in pix?)*/
 
     ySlider = createSlider(0, 600, 300, 5);
     ySlider.parent("yslider");
+    ySlider.size(100);/* length (in pix?)*/
 
     diameterField = createInput(''); // and Input is a live field
     diameterField.value(560);
     diameterField.input(myDiameterFieldListener);
     diameterField.parent("diamField"); // "diamField" is html ID
+    diameterField.size(40);/* length (in pix?)*/
 
     // mission setup
     laserFrequencySlider = createSlider(laserFrequencyMin, laserFrequencyMax, laserFrequency, /*step*/1);
@@ -185,6 +187,7 @@ function setup() {
     laserFrequencyField.value(laserFrequency);
     laserFrequencyField.input(myLaserFrequencyFieldListener);
     laserFrequencyField.parent("laserFrequencyField");
+    laserFrequencyField.size(40);/* length (in pix?)*/
 
     laserIntensitySlider = createSlider(laserIntensityMin, laserIntensityMax, laserIntensity, /*step*/1);
     laserIntensitySlider.parent("laserIntensitySlider");
@@ -193,6 +196,7 @@ function setup() {
     laserIntensityField.value(laserIntensity);
     laserIntensityField.input(myLaserIntensityFieldListener);
     laserIntensityField.parent("laserIntensityField");
+    laserIntensityField.size(40);/* length (in pix?)*/
 
 
     // mission control
@@ -205,8 +209,10 @@ function setup() {
     // results
     estTravelTimeField = createInput('');
     estTravelTimeField.parent("estTravelTimeField");
+    estTravelTimeField.size(70);/* length (in pix?)*/
     missTargetByField = createInput('');
     missTargetByField.parent("missTargetByField");
+    missTargetByField.size(70);/* length (in pix?)*/
 
     ship1 = setupSailCraft(0, 0);/*startloc*/
 } // setup()
