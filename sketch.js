@@ -254,8 +254,10 @@ function flyToAlphaCentauri() {
     // distToAlphaCentauri is in Mm (megameters = million meters)
     // ship1 speedX is in km/sec so km is 1000 times smaller than Mm)
     // and 31,558,150 seconds per year
-    estTravelTimeField.value( distToAlphaCentauri / (ship1.speedX * 31558150.0 * 1000.0));
-    missTargetByField.value( ship1.speedY * 31558150.0 * 1000.0 );
+    var kmPerMm = 0.001; // 1 thousandth
+    var secondsPerYear = 31557600.0; // with year = 365.25 days
+    estTravelTimeField.value( distToAlphaCentauri / (ship1.speedX * secondsPerYear * kmPerMm));
+    missTargetByField.value( ship1.speedY  * secondsPerYear * kmPerMm );
 
 } // flyToAlphaCentauri
 
