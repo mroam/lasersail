@@ -23,25 +23,26 @@ var missTargetByField;
 
 
 // constants, from wolframalpha.com
-var c = 299.792; // in Mm/sec, = 299,792km/s = 299792000m/s.
+var cMmPerSec = 299.792; // in Mm/sec, = 299,792km/s = 299792000m/s.
+var cKmPerSec = 299792; 
 // hmmm, is javascript going to be able to handle the precision??
 var distToAlphaCentauri = 41530000000; // in Mm =  4.39 lightyears = 41,530,000,000,000 km
 
-    // known laser wavelengths range from
-    // exciplex "excimer" laser (lasik!) for power & pulsing, see 
-    // https://en.wikipedia.org/wiki/Excimer_laser
-    // 157nm (nanometer = 0.000 000 001m = 0.157µm) (ultraviolet) 
-    // up to 699µm (micrometer = micron = 0.000 001m) (far infra-red) 
-    // from methanol, see https://en.wikipedia.org/wiki/Dye_laser
-    // wavelengths have corresponding frequencies:
-    //  157nm = 1909506 GHz (with energy 7.9eV)
-    //  699µm = 428.9 GHz (with energy=0.00177eV)
-    // see https://en.wikipedia.org/wiki/List_of_laser_types
-    // and wolframalpha.com/input?i=551.58+terahertz
-    // and laser wavelength to frequency conversion 
-    // at http://www.photonics.byu.edu/fwnomograph.phtml
+/* Known laser wavelengths range from exciplex "excimer" laser (lasik!) for power & pulsing, 
+see https://en.wikipedia.org/wiki/Excimer_laser
+with 157nm (nanometer = 0.000 000 001m = 0.157µm) (ultraviolet) 
+up to 699µm (micrometer = micron = 0.000 001m) (far infra-red) 
+from methanol laser, see https://en.wikipedia.org/wiki/Dye_laser
+
+Wavelengths have corresponding frequencies:
+     157nm = 1909506 GHz (with energy 7.9eV)
+     699µm = 428.9 GHz (with energy=0.00177eV)
+( see https://en.wikipedia.org/wiki/List_of_laser_types
+ and wolframalpha.com/input?i=551.58+terahertz
+and laser wavelength to frequency conversion www.photonics.byu.edu/fwnomograph.phtml
+*/
 var laserFrequencyMin = 0.4289; // in terahertz
-     // = 428 900 000 000 Hertz. maybe we should use terahertz
+     // = 428 900 000 000 Hertz.
 var laserFrequencyMax = 1909.506; // in terahertz
      // = 1 909 506 000 000 000 hertz
 
@@ -62,7 +63,7 @@ var laserIntensityMax =  1000.0;  // in exaWatt = 10^18 Watt/m^2,
 
 // simulation model
 var ship1; // gets created in "setup()"
-var locations = [];
+var locations = []; // will be a history of the step-by-step locations of the ship
 var moneyAvail = 1000.0; // for sailsize, onboard fuel, laser-burn-fuel (choose vertex angle and power and burnDuration)
 var laserFrequency = 1.0; // in teraHertz aka 10^12 hertz (cycles/sec)
 var laserIntensity = 1.0; // in meters (?)
@@ -83,8 +84,8 @@ var SailCraft = {
     x: 0.0, // loc of ctr of mass, km fr Earth to A.C. along travel path
     y: 0.0, // loc of ctr of mass, off of path to A.C
 
-    speedx: 10.0, // km/sec straight toward alpha centauri
-    speedy: 0.0, // km/sec off path to alpha c.
+    speedX: 10.0, // km/sec straight toward alpha centauri
+    speedY: 0.0, // km/sec off path to alpha c.
 
     angleOfCraft: 0, // aka theta, craft's turn in degrees with 0
     // being directly on path to AC
@@ -98,23 +99,37 @@ var SailCraft = {
     laserFakePowerPerSec: 1.0 // what units?
 };
 
+
 SailCraft.sayStuff = function () {
-    console.log("ship1's distance from earth is " + this.x + ", and my speedx toward Alpha C. is: " + this.speedx);
+    console.log("ship1's distance from earth is " + this.x + ", and my speedX toward Alpha C. is: " + this.speedX + " km/sec");
 };
+
 
 SailCraft.flyALittle = function (secondsSincePrevMove) {
     // this method will belong to ship1 aka "this"
-    this.x = this.x + (this.speedx * secondsSincePrevMove); // fake
-    this.speedx = this.speedx + (this.laserFakePowerPerSec * secondsSincePrevMove); // fake!
+    // speedX and speedY are in km/sec
+    this.x = this.x + (this.speedX * secondsSincePrevMove);
+    // use set/get so speed limits are enforced!
+    setSpeedX(this.speedX + (this.laserFakePowerPerSec * secondsSincePrevMove)); 
     // can I call other functions, e.g. 
-    //     this.speedx += (this.laser() * secondsSincePrevMove);
+    //     this.speedX += (this.laser() * secondsSincePrevMove);
 };
+
 
 SailCraft.crossSection = function () {
     // this method will belong to ship1 aka "this"
     return 1.0; // m^2   fake answer, should use this.elbow1 and elbow2
 };
 
+
+SailCraft.setSpeedX = function ( newSpeedX ) {
+	// speedX and newSpeedX should be in Km/sec, and (absolute value) should be less than light speed!
+	if (Math.abs(newSpeedX) > cKmPerSec) {
+		console.log("Ship1 wants newSpeed " + newSpeedX + "Km/Sec which is faster than light (" + cKmPerSec + " Km/Sec). Denied.");
+	} else {
+		this.speedX = newSpeedX;
+	}
+}; // SailCraft.setSpeedX( )
 
 // laser causes pressure in pascals (newton/sqMeter) 
 //  (as force/area ), units: kg / (m * sec^2).
@@ -237,10 +252,10 @@ function flyToAlphaCentauri() {
         ship1.sayStuff(); // goes to browser console (in safari activate menu Develop:ShowWebInspector)
     }
     // distToAlphaCentauri is in Mm (megameters = million meters)
-    // ship1 speedx is in km/sec so km is 1000 times smaller than Mm)
+    // ship1 speedX is in km/sec so km is 1000 times smaller than Mm)
     // and 31,558,150 seconds per year
-    estTravelTimeField.value( distToAlphaCentauri / (ship1.speedx * 31558150.0 * 1000.0));
-    missTargetByField.value( ship1.speedy * 31558150.0 * 1000.0 );
+    estTravelTimeField.value( distToAlphaCentauri / (ship1.speedX * 31558150.0 * 1000.0));
+    missTargetByField.value( ship1.speedY * 31558150.0 * 1000.0 );
 
 } // flyToAlphaCentauri
 
@@ -252,6 +267,7 @@ function myDiameterFieldListener() {
     diameter = Number(this.value()); // "this" is the field that owns this listener 
     // gotta validate!!
 } // myDiameterFieldListener
+
 
 // following is a bit useless because the field isn't really typable
 // now that the slider value gets constantly drawn into field.
@@ -268,6 +284,7 @@ function myLaserFrequencyFieldListener() {
         laserFrequencySlider.value(newLaserFrequency);
     }
 } // myLaserFrequencyFieldListener
+
 
 // following is a bit useless because the field isn't really typable
 // now that the slider value gets constantly drawn into field.
