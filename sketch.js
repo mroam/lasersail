@@ -110,7 +110,7 @@ SailCraft.flyALittle = function (secondsSincePrevMove) {
     // speedX and speedY are in km/sec
     this.x = this.x + (this.speedX * secondsSincePrevMove);
     // use set/get so speed limits are enforced!
-    setSpeedX(this.speedX + (this.laserFakePowerPerSec * secondsSincePrevMove)); 
+    this.setSpeedX(this.speedX + (this.laserFakePowerPerSec * secondsSincePrevMove)); 
     // can I call other functions, e.g. 
     //     this.speedX += (this.laser() * secondsSincePrevMove);
 };
