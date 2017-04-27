@@ -2,6 +2,8 @@ import graphics
 import math
 #Constants:
 c = 299792458 #m/s
+
+#note: gotta pay for specs
 laserFrequency = input('Enter a laser freqeuncy between 400-3*10^16 Hz:')
 laserPower = input('Enter a laser power:') # watts = ( newton * m) /sec  # or calculate power = k * (amp^2) * freq
 # note: "intensity" is power/area of the spread out laser
