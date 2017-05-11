@@ -60,6 +60,7 @@ var laserIntensityMax =  1000.0;  // in exaWatt = 10^18 Watt/m^2,
     // power of 3.2 mW in a beam that has a diameter of 2.5mm" from
     // https://www.physicsforums.com/threads/intensity-of-laser-beam-inverse-square-law.37462/
 
+var laserCostPerWatt = 1.0; // ?? for game
 
 // simulation model
 var ship1; // gets created in "setup()"
@@ -86,6 +87,8 @@ var SailCraft = {
     maxTemperatureToleranceC: 200.0,
     minTemperatureToleranceC: -100.0,
     dTemperatureCSec: 0.1, // radiation, is factor of temp
+	
+    reflectivity: 0.9, // percent, approx (40 year mission article by ? uses ~0.87 (87%))
 
     x: 0.0, // loc of ctr of mass, km fr Earth to A.C. along travel path
     y: 0.0, // loc of ctr of mass, off of path to A.C
