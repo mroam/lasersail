@@ -66,7 +66,10 @@ var ship1; // gets created in "setup()"
 var locations = []; // will be a history of the step-by-step locations of the ship
 var moneyAvail = 1000.0; // for sailsize, onboard fuel, laser-burn-fuel (choose vertex angle and power and burnDuration)
 var laserFrequency = 1.0; // in teraHertz aka 10^12 hertz (cycles/sec)
-var laserIntensity = 1.0; // in meters (?)
+var laserIntensity = 1.0; // in what units?  intensity= power/(areaOfTheSpreadOutLaser) so 
+var laserAmplitude =  1.0;  // units? values?? 
+var laserPowerK = 1.0; // ??     // # watts = ( newton * m) /sec  # or calculate power = k * (amp^2) * freq
+
 
 
 
@@ -75,7 +78,10 @@ var laserIntensity = 1.0; // in meters (?)
 // to which methods are added later, has no constructor since we're only going to have 1)
 var SailCraft = {
     massGrams: 100.0, // changes as user buys sailsize and onboard nav fuel, perhaps load up with equipment
+    thrusterFuel: 1.0, // unit? perhaps cc, then we need mass and dV
+	
     surfaceAreaM2: 1.0, // square meters, variable
+	
     temperatureC: 0.0, // in celsius. We need to know radiation rate
     maxTemperatureToleranceC: 200.0,
     minTemperatureToleranceC: -100.0,
@@ -84,7 +90,8 @@ var SailCraft = {
     x: 0.0, // loc of ctr of mass, km fr Earth to A.C. along travel path
     y: 0.0, // loc of ctr of mass, off of path to A.C
 
-    speedX: 10.0, // km/sec straight toward alpha centauri
+    speedX: 10.0, // starting speed, km/sec straight toward alpha centauri
+	// note: iss is orbiting at 7.6 km/sec, so sailcraft launched from orbit could be a bit faster.
     speedY: 0.0, // km/sec off path to alpha c.
 
     angleOfCraft: 0, // aka theta, craft's turn in degrees with 0
@@ -96,7 +103,7 @@ var SailCraft = {
     // might remember bend of two elbows e1,e2 of sail, equidistant from center, --E--c--E-- sometime: 
     // user specifies length -- "L"
     // 1g of equipment
-    laserFakePowerPerSec: 1.0 // what units?
+    laserFakePowerPerSec: 1.0, // watts = ( newton * m) /sec  # or calculate power = k * (amp^2) * freq
 };
 
 
@@ -111,6 +118,8 @@ SailCraft.flyALittle = function (secondsSincePrevMove) {
     this.x = this.x + (this.speedX * secondsSincePrevMove);
     // use set/get so speed limits are enforced!
     this.setSpeedX(this.speedX + (this.laserFakePowerPerSec * secondsSincePrevMove)); 
+    laserPower: laserPowerK * laserAmplitude * laserAmplitude * laserFrequency;  // lot of unknowns here!
+
     // can I call other functions, e.g. 
     //     this.speedX += (this.laser() * secondsSincePrevMove);
 };
