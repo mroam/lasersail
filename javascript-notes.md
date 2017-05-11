@@ -1,41 +1,52 @@
 notes: old sample javascript "for" loop
+```javascript
 var count;
 for(count = 0; count < 10; count++){
      //document.write("Current Count : " + count + "<br />");
 }
-
+```
 
 ==========
-https://www.w3schools.com/js/js_objects.asp
+Here are examples from https://www.w3schools.com/js/js_objects.asp
 
 example object creation:
+```javascript
 var car = {type:"Fiat", model:"500", color:"white"};
 var person = {firstName:"John", lastName:"Doe", age:50, eyeColor:"blue"};
-
+```
 "You can access object properties in two ways:"
+```javascript
 objectName.propertyName or objectName["propertyName"]
 examples: person.firstName;  or fiat["color"];
-
+```
 Assign functions (called "methods" in Java) to objects somehow, when creating them:
    var skydiver = { firstName:"Jane", lastName:"Doe", fullName: function( ) { return this.firstName + " " + this.lastName;}, age:55 };
    
-(You add functions later: 
+(You add functions later:
+```javascript
 person.fullName = function( ) { return this.firstName + " " + this.lastName; }  
+```
 See csv example for assigning one copy of the method to an object's prototype rather than installing the method onto every instance of an object.) 
-access functions by   person.fullName( )   // if you omit the parentheses, you get the code!
-
+access functions by   
+```javascript
+person.fullName( )   // if you omit the parentheses, you get the code!
+```
 see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
 about how we can put 
+```javascript
 'use strict';
+```
 at the top of a javascript file, or at the top of a function. Example:
+```javascript
 function wahoo( ) {
   // Function-level strict mode syntax
   'use strict';
   // …
 }
-
+```
 
 ===============
+```javascript
 // ps: the following was all demonstrated and tested using http://repl.it
 // JN samples of class definition, constructors, and instantiation
 
@@ -105,3 +116,4 @@ console.log(OtherShip);
 console.log(otherShip1);
 console.log(otherShip1.__proto__);
 //ship1.sayBoo();
+```
