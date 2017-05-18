@@ -120,9 +120,17 @@ SailCraft.flyALittle = function (secondsSincePrevMove) {
     // speedX and speedY are in km/sec
     this.x = this.x + (this.speedX * secondsSincePrevMove);
     // use set/get so speed limits are enforced!
-    this.setSpeedX(this.speedX + (this.laserFakePowerPerSec * secondsSincePrevMove)); 
-    laserPower: laserPowerK * laserAmplitude * laserAmplitude * laserFrequency;  // lot of unknowns here!
-
+    
+    // var laserPower = setByUser // laserPowerK * laserAmplitude * laserAmplitude * laserFrequency;  // lot of unknowns here!
+    var laserPowerApplied = laserPower / this.distanceFromLaser( );
+	var laserSpot = (2.44 * this.distanceFromLaser() * laserWavelength ) / laserArraySize;
+	var laserPressure = (2 * (laserPowerApplied/laserSpot)) / c;  // yes, that speed of light c
+	
+    var laserForce = laserPressure * surfaceAreaM2;
+	var accell = laserForce / sailMass;
+    
+    this.setSpeedX(this.speedX + accell;
+		   // was this.speedX + (this.laserFakePowerPerSec * secondsSincePrevMove)); 
     // can I call other functions, e.g. 
     //     this.speedX += (this.laser() * secondsSincePrevMove);
 };
@@ -151,6 +159,10 @@ SailCraft.setSpeedX = function ( newSpeedX ) {
 SailCraft.crossSection = function () {
     // this method will belong to ship1 aka "this"
     return 1.0; // m^2   fake answer, should use this.elbow1 and elbow2
+};
+
+SailCraft.distanceFromLaser = function () {
+	return this.x;  // cheap, inaccurate if laser moves and if "y" is non zero
 };
 
 // charts
