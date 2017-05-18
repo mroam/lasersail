@@ -123,13 +123,13 @@ SailCraft.flyALittle = function (secondsSincePrevMove) {
     
     // var laserPower = setByUser // laserPowerK * laserAmplitude * laserAmplitude * laserFrequency;  // lot of unknowns here!
     var laserPowerApplied = laserPower / this.distanceFromLaser( );
-	var laserSpot = (2.44 * this.distanceFromLaser() * laserWavelength ) / laserArraySize;
-	var laserPressure = (2 * (laserPowerApplied/laserSpot)) / c;  // yes, that speed of light c
+    var laserSpot = (2.44 * this.distanceFromLaser() * laserWavelength ) / laserArraySize;
+    var laserPressure = (2 * (laserPowerApplied/laserSpot)) / c;  // yes, that speed of light c
 	
     var laserForce = laserPressure * surfaceAreaM2;
-	var accell = laserForce / sailMass;
+    var accell = laserForce / sailMass;
     
-    this.setSpeedX(this.speedX + accell;
+    this.setSpeedX(this.speedX + accell);
 		   // was this.speedX + (this.laserFakePowerPerSec * secondsSincePrevMove)); 
     // can I call other functions, e.g. 
     //     this.speedX += (this.laser() * secondsSincePrevMove);
@@ -142,8 +142,9 @@ SailCraft.flyALittle = function (secondsSincePrevMove) {
 // 
 // Power is expressed as W (watt), equiv to "1 joule/sec" [meaning "energy/time"] units: kg * m^2/sec^3
 // Joule is unit of energy, when force of 1 Newton acts on a body for one meter. units: kg * m^2 / sec^2
-// Newton = 1 kg * m/sec^2  (The force necessary to accelerate one kg at rate of 1 m/sec^2. Note: force = m * a, "m" is in kg, "a" is m/sec^2)
-
+// Newton = 1 kg * m/sec^2  (The force necessary to accelerate one kg at rate of 1 m/sec^2. 
+// Note: force = m * a, "m" is in kg, "a" is m/sec^2
+//
 
 SailCraft.setSpeedX = function ( newSpeedX ) {
 	// speedX and newSpeedX should be in Km/sec, and (absolute value) should be less than light speed!
