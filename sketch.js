@@ -81,7 +81,7 @@ var SailCraft = {
     massGrams: 100.0, // changes as user buys sailsize and onboard nav fuel, perhaps load up with equipment
     thrusterFuel: 1.0, // unit? perhaps cc, then we need mass and dV
 	
-    surfaceAreaM2: 1.0, // square meters, variable
+    surfaceAreaM2: 50.0, // square meters, variable
 	
     temperatureC: 0.0, // in celsius. We need to know radiation rate
     maxTemperatureToleranceC: 200.0,
@@ -127,11 +127,14 @@ SailCraft.flyALittle = function (secondsSincePrevMove) {
     //     this.speedX += (this.laser() * secondsSincePrevMove);
 };
 
-
-SailCraft.crossSection = function () {
-    // this method will belong to ship1 aka "this"
-    return 1.0; // m^2   fake answer, should use this.elbow1 and elbow2
-};
+// laser causes pressure in pascals (newton/sqMeter) 
+//  (as force/area ), units: kg / (m * sec^2).
+//
+// Newtons are 1kg * 1m / sec^2
+// 
+// Power is expressed as W (watt), equiv to "1 joule/sec" [meaning "energy/time"] units: kg * m^2/sec^3
+// Joule is unit of energy, when force of 1 Newton acts on a body for one meter. units: kg * m^2 / sec^2
+// Newton = 1 kg * m/sec^2  (The force necessary to accelerate one kg at rate of 1 m/sec^2. Note: force = m * a, "m" is in kg, "a" is m/sec^2)
 
 
 SailCraft.setSpeedX = function ( newSpeedX ) {
@@ -143,15 +146,12 @@ SailCraft.setSpeedX = function ( newSpeedX ) {
 	}
 }; // SailCraft.setSpeedX( )
 
-// laser causes pressure in pascals (newton/sqMeter) 
-//  (as force/area ), units: kg / (m * sec^2).
-//
-// Newtons are 1kg * 1m / sec^2
-// 
-// Power is expressed as W (watt), equiv to "1 joule/sec" [meaning "energy/time"] units: kg * m^2/sec^3
-// Joule is unit of energy, when force of 1 Newton acts on a body for one meter. units: kg * m^2 / sec^2
-// Newton = 1 kg * m/sec^2  (The force necessary to accelerate one kg at rate of 1 m/sec^2. Note: force = m * a, "m" is in kg, "a" is m/sec^2)
 
+
+SailCraft.crossSection = function () {
+    // this method will belong to ship1 aka "this"
+    return 1.0; // m^2   fake answer, should use this.elbow1 and elbow2
+};
 
 // charts
 var chartMilliseconds = {};
