@@ -1,5 +1,6 @@
 "use strict";
 // Thanks to Jascha Narveson for showing Mike how to use p5, Feb-Mar 2017
+// future plans: costs for power, saved presets, some sliders should be logarithmic
 
 // globals:
 //   user interface...
@@ -12,7 +13,8 @@ var diameter;
 
 // mission setup
 var laserFrequencySlider; // range is laserFrequencyMin&Max
-var laserIntensitySlider; // range is laserIntensityMin&Max
+// var laserIntensitySlider; // range is laserIntensityMin&Max
+var laserPowerSlider; // range is laserPowerMin&Max
 
 // mission controls
 var launchButton;
@@ -24,7 +26,7 @@ var missTargetByField;
 
 // constants, from wolframalpha.com
 var cMmPerSec = 299.792; // in Mm/sec, = 299,792km/s = 299792000m/s.
-var cKmPerSec = 299792; 
+var cKmPerSec = 299792;
 // hmmm, is javascript going to be able to handle the precision??
 var distToAlphaCentauri = 41530000000; // in Mm =  4.39 lightyears = 41,530,000,000,000 km
 
@@ -41,16 +43,20 @@ Wavelengths have corresponding frequencies:
  and wolframalpha.com/input?i=551.58+terahertz
 and laser wavelength to frequency conversion www.photonics.byu.edu/fwnomograph.phtml
 */
+var laserPowerMin = 450.0 ; // in MWatts
+var laserPowerMax = 65000.0; // in MWatts, so = 65 G Watts 
+
 var laserFrequencyMin = 0.4289; // in terahertz
      // = 428 900 000 000 Hertz.
 var laserFrequencyMax = 1909.506; // in terahertz
      // = 1 909 506 000 000 000 hertz
 
+/*
 var laserIntensityMin =  0.0; // in W/m^2
 var laserIntensityMax =  1000.0;  // in exaWatt = 10^18 Watt/m^2,
 // so 1.0 = petaWatt = 10^15
 // entering era of zettawatt (10^21 W/cm^2) = 10^17 W/m^2
-    // Laser Intensity or Brightness aka "Intensity" (approx power?)
+    // Laser Intensity or Brightness aka "Intensity" ( power per area )
     // see https://en.wikipedia.org/wiki/Laser  for chart of laser power
 
     // "Laser-Induced Damage Threshold" LIDT ... at
@@ -59,16 +65,19 @@ var laserIntensityMax =  1000.0;  // in exaWatt = 10^18 Watt/m^2,
     // e.g. "A small helium neon laser emits red visible light with a 
     // power of 3.2 mW in a beam that has a diameter of 2.5mm" from
     // https://www.physicsforums.com/threads/intensity-of-laser-beam-inverse-square-law.37462/
-
+*/
 var laserCostPerWatt = 1.0; // ?? for game
 
 // simulation model
 var ship1; // gets created in "setup()"
 var locations = []; // will be a history of the step-by-step locations of the ship
 var moneyAvail = 1000.0; // for sailsize, onboard fuel, laser-burn-fuel (choose vertex angle and power and burnDuration)
+
 var laserFrequency = 1.0; // in teraHertz aka 10^12 hertz (cycles/sec)
-var laserIntensity = 1.0; // in what units?  intensity= power/(areaOfTheSpreadOutLaser) so 
-var laserAmplitude =  1.0;  // units? values?? 
+//var laserIntensity = 1.0; // in what units?  intensity= power/(areaOfTheSpreadOutLaser) so 
+//var laserAmplitude =  1.0;  // units? values?? 
+var laserArraySizem2 = 12.0;  // ????? totally fake number
+var laserPower = 450.0; // in MWatts
 var laserPowerK = 1.0; // ??     // # watts = ( newton * m) /sec  # or calculate power = k * (amp^2) * freq
 
 
@@ -121,10 +130,17 @@ SailCraft.flyALittle = function (secondsSincePrevMove) {
     this.x = this.x + (this.speedX * secondsSincePrevMove);
     // use set/get so speed limits are enforced!
     
-    // var laserPower = setByUser // laserPowerK * laserAmplitude * laserAmplitude * laserFrequency;  // lot of unknowns here!
-    var laserPowerApplied = laserPower / this.distanceFromLaser( );
-    var laserSpot = (2.44 * this.distanceFromLaser() * laserWavelength ) / laserArraySize;
-    var laserPressure = (2 * (laserPowerApplied/laserSpot)) / c;  // yes, that speed of light c
+    // var laserPower = setByUser 
+    // note: laserPowerK * laserAmplitude * laserAmplitude * laserFrequency;  // lot of unknowns here!
+    var currDistKm = this.distanceFromLaserKm( );
+       // 
+       // ?? have to check units (and their prefixes!) from here onward
+    var laserPowerApplied = laserPower / (currDistKm * currDistKm) ;
+    var laserWavelength = cKmPerSec / laserFrequency;
+    
+    var laserSpotSize = (2.44 * currDistKm * laserWavelength ) / laserArraySizem2;  // ?? check units!! m? km?
+    var laserIntensity = laserPower / laserSpotSize;
+    var laserPressure = (2 * laserIntensity) / cKmPerSec;  // yes, that speed of light c
 	
     var laserForce = laserPressure * surfaceAreaM2;
     var accell = laserForce / sailMass;
@@ -162,8 +178,9 @@ SailCraft.crossSection = function () {
     return 1.0; // m^2   fake answer, should use this.elbow1 and elbow2
 };
 
-SailCraft.distanceFromLaser = function () {
-	return this.x;  // cheap, inaccurate if laser moves and if "y" is non zero
+SailCraft.distanceFromLaserKm = function () {
+	return this.x;  // ??
+	// cheap first attempt, inaccurate if laser moves and if "y" is non zero
 };
 
 // charts
@@ -205,6 +222,15 @@ function setup() {
     diameterField.size(40);/* length (in pix?)*/
 
     // mission setup
+    laserPowerSlider = createSlider(laserPowerMin, laserPowerMax, laserPower, /* step*/ 1);
+    laserPowerSlider.parent("laserPowerSlider");
+    laserPowerSlider.size(100);/*length*/ 
+    laserPowerField = createInput('');
+    laserPowerField.value(laserPower);
+    laserPowerField.input(myLaserPowerFieldListener);
+    laserPowerField.parent("laserPowerField");
+    laserPowerField.size(40);/* length (in pix?)*/
+    
     laserFrequencySlider = createSlider(laserFrequencyMin, laserFrequencyMax, laserFrequency, /*step*/1);
     laserFrequencySlider.parent("laserFrequencySlider");
     laserFrequencySlider.size(100);/*length*/ 
@@ -214,14 +240,14 @@ function setup() {
     laserFrequencyField.parent("laserFrequencyField");
     laserFrequencyField.size(40);/* length (in pix?)*/
 
-    laserIntensitySlider = createSlider(laserIntensityMin, laserIntensityMax, laserIntensity, /*step*/1);
-    laserIntensitySlider.parent("laserIntensitySlider");
-    laserIntensitySlider.size(100);/*length*/ 
-    laserIntensityField = createInput('');
-    laserIntensityField.value(laserIntensity);
-    laserIntensityField.input(myLaserIntensityFieldListener);
-    laserIntensityField.parent("laserIntensityField");
-    laserIntensityField.size(40);/* length (in pix?)*/
+//    laserIntensitySlider = createSlider(laserIntensityMin, laserIntensityMax, laserIntensity, /*step*/1);
+//    laserIntensitySlider.parent("laserIntensitySlider");
+//    laserIntensitySlider.size(100);/*length*/ 
+//    laserIntensityField = createInput('');
+//    laserIntensityField.value(laserIntensity);
+//    laserIntensityField.input(myLaserIntensityFieldListener);
+//    laserIntensityField.parent("laserIntensityField");
+//    laserIntensityField.size(40);/* length (in pix?)*/
 
 
     // mission control
@@ -261,7 +287,7 @@ function draw() {
     ellipse( /*x*/xSlider.value(), /*y*/ySlider.value(), /*w and h*/ diameter);
     
     laserFrequencyField.value(laserFrequencySlider.value());
-    laserIntensityField.value(laserIntensitySlider.value());
+    // laserIntensityField.value(laserIntensitySlider.value());
 } // draw()
 
 
@@ -317,6 +343,24 @@ function myLaserFrequencyFieldListener() {
         laserFrequencySlider.value(newLaserFrequency);
     }
 } // myLaserFrequencyFieldListener
+
+
+
+// following is a bit useless because the field isn't really typable
+// now that the slider value gets constantly drawn into field.
+// The validation code in here should get put somewhere useful, I 
+// suppose, though the slider is restricted to proper values, no?
+function myLaserPowerFieldListener() {
+    // can also coerce "this.value()" from string to number by multiplying by 1
+    var newLaserPower = Number(this.value());
+    console.log("new laserPow=" + newLaserPower);
+    // "this" is the field that owns this listener 
+    // gotta validate!!
+    if ((newLaserPower >= laserPowerMin) && (newLaserPower <= laserPowerMax)) {
+        laserPower = newLaserPower;
+        laserPowerSlider.value(newLaserPower);
+    }
+} // myLaserPowerFieldListener
 
 
 // following is a bit useless because the field isn't really typable
