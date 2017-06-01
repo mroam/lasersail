@@ -24,5 +24,10 @@ https://cdn.rawgit.com/mroam/lasersail/44698f09/index.html
 More ideas:
 [ ] Increasing price of increasing laser power: should not go up linearly!
 [ ] Starting laser freq/power settings could alter color of starting circle(s)!
+[ ] "Realtime" multi-year app. (± compress time)
+[ ] 
 
-
+Not in the javascript yet:
+[ ] Spot-size of laser?
+[ ] Cost of comm+nav equipment, laser, sail-size, sail-material, on-board propellant, etc
+[ ] Temperature effects, ripping, steering, rotating, adjustable mass

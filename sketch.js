@@ -14,7 +14,7 @@ var diameter;
 // mission setup
 var laserFrequencySlider; // range is laserFrequencyMin&Max
 // var laserIntensitySlider; // range is laserIntensityMin&Max
-var laserPowerSlider; // range is laserPowerMin&Max
+var laserPowerSlider; // range is laserPowerMin&MaxMw
 
 // mission controls
 var launchButton;
@@ -28,8 +28,9 @@ var missTargetByField;
 var cMmPerSec = 299.792; // in Mm/sec, = 299,792km/s = 299792000m/s.
 var cKmPerSec = 299792;
 // hmmm, is javascript going to be able to handle the precision??
-var distToAlphaCentauri = 41530000000; // in Mm =  4.39 lightyears = 41,530,000,000,000 km
+var distToAlphaCentauriMm = 41530000000; // in Mm =  4.39 lightyears = 41,530,000,000,000 km
 
+// for metric prefixes see http://www.nanotech-now.com/metric-prefix-table.htm
 /* Known laser wavelengths range from exciplex "excimer" laser (lasik!) for power & pulsing, 
 see https://en.wikipedia.org/wiki/Excimer_laser
 with 157nm (nanometer = 0.000 000 001m = 0.157µm) (ultraviolet) 
@@ -43,12 +44,12 @@ Wavelengths have corresponding frequencies:
  and wolframalpha.com/input?i=551.58+terahertz
 and laser wavelength to frequency conversion www.photonics.byu.edu/fwnomograph.phtml
 */
-var laserPowerMin = 450.0 ; // in MWatts
-var laserPowerMax = 65000.0; // in MWatts, so = 65 G Watts 
+var laserPowerMinMWatt = 450.0 ; // in MWatts
+var laserPowerMaxMWatt = 65000.0; // in MWatts, so = 65 G Watts 
 
-var laserFrequencyMin = 0.4289; // in terahertz
+var laserFrequencyMinTHz = 0.4289; // in terahertz, tera means 10^12
      // = 428 900 000 000 Hertz.
-var laserFrequencyMax = 1909.506; // in terahertz
+var laserFrequencyMaxTHz = 1909.506; // in terahertz
      // = 1 909 506 000 000 000 hertz
 
 /*
@@ -73,12 +74,12 @@ var ship1; // gets created in "setup()"
 var locations = []; // will be a history of the step-by-step locations of the ship
 var moneyAvail = 1000.0; // for sailsize, onboard fuel, laser-burn-fuel (choose vertex angle and power and burnDuration)
 
-var laserFrequency = 1.0; // in teraHertz aka 10^12 hertz (cycles/sec)
+var laserFrequencyTHz = 1.0; // in teraHertz aka 10^12 hertz (cycles/sec)
 //var laserIntensity = 1.0; // in what units?  intensity= power/(areaOfTheSpreadOutLaser) so 
 //var laserAmplitude =  1.0;  // units? values?? 
 var laserArraySizem2 = 12.0;  // ????? totally fake number
-var laserPower = 450.0; // in MWatts
-var laserPowerK = 1.0; // ??     // # watts = ( newton * m) /sec  # or calculate power = k * (amp^2) * freq
+var laserPowerMw = 450.0; // in MWatts
+var laserPowerConstant = 1.0; // ??     // # watts = ( newton * m) /sec  # or calculate power = k * (amp^2) * freq
 
 
 
@@ -102,9 +103,9 @@ var SailCraft = {
     x: 0.0, // loc of ctr of mass, km fr Earth to A.C. along travel path
     y: 0.0, // loc of ctr of mass, off of path to A.C
 
-    speedX: 10.0, // starting speed, km/sec straight toward alpha centauri
+    speedXkmPerSec: 10.0, // starting speed, km/sec straight toward alpha centauri
 	// note: iss is orbiting at 7.6 km/sec, so sailcraft launched from orbit could be a bit faster.
-    speedY: 0.0, // km/sec off path to alpha c.
+    speedYkmPerSec: 0.0, // km/sec off path to alpha c.
 
     angleOfCraft: 0, // aka theta, craft's turn in degrees with 0
     // being directly on path to AC
@@ -120,56 +121,59 @@ var SailCraft = {
 
 
 SailCraft.sayStuff = function () {
-    console.log("ship1's distance from earth is " + this.x + ", and my speedX toward Alpha C. is: " + this.speedX + " km/sec");
+    console.log("ship1's distance from earth is " + this.x + ", and my speedXkmPerSec toward Alpha C. is: " + this.speedXkmPerSec + " km/sec");
 };
 
 
 SailCraft.flyALittle = function (secondsSincePrevMove) {
     // this method will belong to ship1 aka "this"
-    // speedX and speedY are in km/sec
-    this.x = this.x + (this.speedX * secondsSincePrevMove);
+    // speedXkmPerSec and speedYkmPerSec are in km/sec
+    this.x = this.x + (this.speedXkmPerSec * secondsSincePrevMove);
     // use set/get so speed limits are enforced!
     
-    // var laserPower = setByUser 
-    // note: laserPowerK * laserAmplitude * laserAmplitude * laserFrequency;  // lot of unknowns here!
+    // var laserPowerMw = setByUser 
+    // note: laserPowerConstant * laserAmplitude * laserAmplitude * laserFrequency;  // lot of unknowns here!
     var currDistKm = this.distanceFromLaserKm( );
        // 
+    // var laserPowerAppliedMw = laserPowerMw / (currDistKm * currDistKm) ; // units??
+    var laserWavelengthnm = cKmPerSec / laserFrequencyTHz;  // in "n"anometer
+    
        // ?? have to check units (and their prefixes!) from here onward
-    var laserPowerApplied = laserPower / (currDistKm * currDistKm) ;
-    var laserWavelength = cKmPerSec / laserFrequency;
-    
-    var laserSpotSize = (2.44 * currDistKm * laserWavelength ) / laserArraySizem2;  // ?? check units!! m? km?
-    var laserIntensity = laserPower / laserSpotSize;
-    var laserPressure = (2 * laserIntensity) / cKmPerSec;  // yes, that speed of light c
-	
-    var laserForce = laserPressure * surfaceAreaM2;
-    var accell = laserForce / sailMass;
-    
-    this.setSpeedX(this.speedX + accell);
-		   // was this.speedX + (this.laserFakePowerPerSec * secondsSincePrevMove)); 
-    // can I call other functions, e.g. 
-    //     this.speedX += (this.laser() * secondsSincePrevMove);
-};
 
-// laser causes pressure in pascals (newton/sqMeter) 
-//  (as force/area ), units: kg / (m * sec^2).
-//
-// Newtons are 1kg * 1m / sec^2
-// 
+    var laserSpotSizem2 = (2.44 * currDistKm * laserWavelengthnm ) / laserArraySizem2;  // ?? check units!! m? km?
+      // var laserIntensity = laserPowerMw / laserSpotSizem2;
+    var laserPressure = (2 * laserIntensity) / cKmPerSec;  // yes, that speed of light c
+      // laser causes pressure in pascals (newton/sqMeter) 
+      //  (as Force / area ), units: kg / (m * sec^2).
+      // Newtons are 1kg * 1m / sec^2
+	
+    var laserForce = laserPressure * this.surfaceAreaM2;
+       // The metric unit of force is the newton (abbreviated N) AKA force/area
+       // Newton = 1 kg * m/sec^2  (The force necessary to accelerate one kg at rate of 1 m/sec^2. 
+    var accell = laserForce / this.massGrams;
+    
 // Power is expressed as W (watt), equiv to "1 joule/sec" [meaning "energy/time"] units: kg * m^2/sec^3
 // Joule is unit of energy, when force of 1 Newton acts on a body for one meter. units: kg * m^2 / sec^2
 // Newton = 1 kg * m/sec^2  (The force necessary to accelerate one kg at rate of 1 m/sec^2. 
 // Note: force = m * a, "m" is in kg, "a" is m/sec^2
+// "Work" is done when a force is applied through a distance
+
+    this.setspeedXkmPerSec(this.speedXkmPerSec + accell);
+		   // was this.speedXkmPerSec + (this.laserFakePowerPerSec * secondsSincePrevMove)); 
+    // can I call other functions, e.g. 
+    //     this.speedXkmPerSec += (this.laser() * secondsSincePrevMove);
+};
+
 //
 
-SailCraft.setSpeedX = function ( newSpeedX ) {
+SailCraft.setspeedXkmPerSec = function ( newspeedXkmPerSec ) {
 	// speedX and newSpeedX should be in Km/sec, and (absolute value) should be less than light speed!
-	if (Math.abs(newSpeedX) > cKmPerSec) {
-		console.log("Ship1 wants newSpeed " + newSpeedX + "Km/Sec which is faster than light (" + cKmPerSec + " Km/Sec). Denied.");
+	if (Math.abs(newspeedXkmPerSec) > cKmPerSec) {
+		console.log("Ship1 wants newSpeed " + newspeedXkmPerSec + "Km/Sec which is faster than light (" + cKmPerSec + " Km/Sec). Denied.");
 	} else {
-		this.speedX = newSpeedX;
+		this.speedXkmPerSec = newspeedXkmPerSec;
 	}
-}; // SailCraft.setSpeedX( )
+}; // SailCraft.setspeedXkmPerSec( )
 
 
 
@@ -222,11 +226,11 @@ function setup() {
     diameterField.size(40);/* length (in pix?)*/
 
     // mission setup
-    laserPowerSlider = createSlider(laserPowerMin, laserPowerMax, laserPower, /* step*/ 1);
+    laserPowerSlider = createSlider(laserPowerMinMWatt, laserPowerMaxMWatt, laserPowerMw, /* step*/ 1);
     laserPowerSlider.parent("laserPowerSlider");
     laserPowerSlider.size(100);/*length*/ 
     laserPowerField = createInput('');
-    laserPowerField.value(laserPower);
+    laserPowerField.value(laserPowerMw);
     laserPowerField.input(myLaserPowerFieldListener);
     laserPowerField.parent("laserPowerField");
     laserPowerField.size(40);/* length (in pix?)*/
@@ -309,12 +313,12 @@ function flyToAlphaCentauri() {
         ship1.sayStuff(); // goes to browser console (in safari activate menu Develop:ShowWebInspector)
     }
     // distToAlphaCentauri is in Mm (megameters = million meters)
-    // ship1 speedX is in km/sec so km is 1000 times smaller than Mm)
+    // ship1 speedXkmPerSec is in km/sec so km is 1000 times smaller than Mm)
     // and 31,558,150 seconds per year
     var kmPerMm = 0.001; // 1 thousandth
     var secondsPerYear = 31557600.0; // with year = 365.25 days
-    estTravelTimeField.value( distToAlphaCentauri / (ship1.speedX * secondsPerYear * kmPerMm));
-    missTargetByField.value( ship1.speedY  * secondsPerYear * kmPerMm );
+    estTravelTimeField.value( distToAlphaCentauri / (ship1.speedXkmPerSec * secondsPerYear * kmPerMm));
+    missTargetByField.value( ship1.speedYkmPerSec  * secondsPerYear * kmPerMm );
 
 } // flyToAlphaCentauri
 
@@ -352,13 +356,13 @@ function myLaserFrequencyFieldListener() {
 // suppose, though the slider is restricted to proper values, no?
 function myLaserPowerFieldListener() {
     // can also coerce "this.value()" from string to number by multiplying by 1
-    var newLaserPower = Number(this.value());
-    console.log("new laserPow=" + newLaserPower);
+    var newLaserPowerMw = Number(this.value());
+    console.log("new laserPowMw=" + newLaserPowerMw);
     // "this" is the field that owns this listener 
     // gotta validate!!
-    if ((newLaserPower >= laserPowerMin) && (newLaserPower <= laserPowerMax)) {
-        laserPower = newLaserPower;
-        laserPowerSlider.value(newLaserPower);
+    if ((newLaserPowerMw >= laserPowerMinMw) && (newLaserPowerMw <= laserPowerMaxMw)) {
+        laserPowerMw = newLaserPowerMw;
+        laserPowerSlider.value(newLaserPowerMw);
     }
 } // myLaserPowerFieldListener
 
