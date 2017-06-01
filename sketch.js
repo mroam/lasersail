@@ -28,7 +28,7 @@ var missTargetByField;
 var cMmPerSec = 299.792; // in Mm/sec, = 299,792km/s = 299792000m/s.
 var cKmPerSec = 299792;
 // hmmm, is javascript going to be able to handle the precision??
-var distToAlphaCentauriMm = 41530000000; // in Mm =  4.39 lightyears = 41,530,000,000,000 km
+var distEarthToAlphaCentauriMm = 41530000000; // in Mm =  4.39 lightyears = 41,530,000,000,000 km
 
 // for metric prefixes see http://www.nanotech-now.com/metric-prefix-table.htm
 /* Known laser wavelengths range from exciplex "excimer" laser (lasik!) for power & pulsing, 
@@ -44,12 +44,12 @@ Wavelengths have corresponding frequencies:
  and wolframalpha.com/input?i=551.58+terahertz
 and laser wavelength to frequency conversion www.photonics.byu.edu/fwnomograph.phtml
 */
-var laserPowerMinMWatt = 450.0 ; // in MWatts
-var laserPowerMaxMWatt = 65000.0; // in MWatts, so = 65 G Watts 
+var laserPowerMWattMin = 450.0 ; // in MWatts
+var laserPowerMWattMax = 65000.0; // in MWatts, so = 65 G Watts 
 
-var laserFrequencyMinTHz = 0.4289; // in terahertz, tera means 10^12
+var laserFrequencyTHzMin = 0.4289; // in terahertz, tera means 10^12
      // = 428 900 000 000 Hertz.
-var laserFrequencyMaxTHz = 1909.506; // in terahertz
+var laserFrequencyTHzMax = 1909.506; // in terahertz
      // = 1 909 506 000 000 000 hertz
 
 /*
@@ -78,7 +78,7 @@ var laserFrequencyTHz = 1.0; // in teraHertz aka 10^12 hertz (cycles/sec)
 //var laserIntensity = 1.0; // in what units?  intensity= power/(areaOfTheSpreadOutLaser) so 
 //var laserAmplitude =  1.0;  // units? values?? 
 var laserArraySizem2 = 12.0;  // ????? totally fake number
-var laserPowerMw = 450.0; // in MWatts
+var laserPowerMWatt = 450.0; // in MWatts
 var laserPowerConstant = 1.0; // ??     // # watts = ( newton * m) /sec  # or calculate power = k * (amp^2) * freq
 
 
@@ -141,7 +141,7 @@ SailCraft.flyALittle = function (secondsSincePrevMove) {
        // ?? have to check units (and their prefixes!) from here onward
 
     var laserSpotSizem2 = (2.44 * currDistKm * laserWavelengthnm ) / laserArraySizem2;  // ?? check units!! m? km?
-      // var laserIntensity = laserPowerMw / laserSpotSizem2;
+    var laserIntensity = laserPowerMWatt / laserSpotSizem2;
     var laserPressure = (2 * laserIntensity) / cKmPerSec;  // yes, that speed of light c
       // laser causes pressure in pascals (newton/sqMeter) 
       //  (as Force / area ), units: kg / (m * sec^2).
@@ -226,23 +226,23 @@ function setup() {
     diameterField.size(40);/* length (in pix?)*/
 
     // mission setup
-    laserPowerSlider = createSlider(laserPowerMinMWatt, laserPowerMaxMWatt, laserPowerMw, /* step*/ 1);
-    laserPowerSlider.parent("laserPowerSlider");
-    laserPowerSlider.size(100);/*length*/ 
-    laserPowerField = createInput('');
-    laserPowerField.value(laserPowerMw);
-    laserPowerField.input(myLaserPowerFieldListener);
-    laserPowerField.parent("laserPowerField");
-    laserPowerField.size(40);/* length (in pix?)*/
+    laserPowerMWattSlider = createSlider(laserPowerMWattMin, laserPowerMWattMax, laserPowerMWatt, /* step*/ 1);
+    laserPowerMWattSlider.parent("laserPowerMWattSlider");
+    laserPowerMWattSlider.size(100);/*length*/ 
+    laserPowerMWattField = createInput('');
+    laserPowerMWattField.value(laserPowerMWatt);
+    laserPowerMWattField.input(myLaserPowerMWattFieldListener);
+    laserPowerMWattField.parent("laserPowerMWattField");
+    laserPowerMWattField.size(40);/* length (in pix?)*/
     
-    laserFrequencySlider = createSlider(laserFrequencyMin, laserFrequencyMax, laserFrequency, /*step*/1);
-    laserFrequencySlider.parent("laserFrequencySlider");
-    laserFrequencySlider.size(100);/*length*/ 
-    laserFrequencyField = createInput('');
-    laserFrequencyField.value(laserFrequency);
-    laserFrequencyField.input(myLaserFrequencyFieldListener);
-    laserFrequencyField.parent("laserFrequencyField");
-    laserFrequencyField.size(40);/* length (in pix?)*/
+    laserFrequencyTHzSlider = createSlider(laserFrequencyTHzMin, laserFrequencyTHzMax, laserFrequencyTHz, /*step*/1);
+    laserFrequencyTHzSlider.parent("laserFrequencyTHzSlider");
+    laserFrequencyTHzSlider.size(100);/*length*/ 
+    laserFrequencyTHzField = createInput('');
+    laserFrequencyTHzField.value(laserFrequencyTHz);
+    laserFrequencyTHzField.input(myLaserFrequencyTHzFieldListener);
+    laserFrequencyTHzField.parent("laserFrequencyTHzField");
+    laserFrequencyTHzField.size(40);/* length (in pix?)*/
 
 //    laserIntensitySlider = createSlider(laserIntensityMin, laserIntensityMax, laserIntensity, /*step*/1);
 //    laserIntensitySlider.parent("laserIntensitySlider");
@@ -290,7 +290,8 @@ function draw() {
     fill(200, 255, 0);
     ellipse( /*x*/xSlider.value(), /*y*/ySlider.value(), /*w and h*/ diameter);
     
-    laserFrequencyField.value(laserFrequencySlider.value());
+    laserFrequencyTHzField.value(laserFrequencyTHzSlider.value( ));
+    laserPowerMWattField.value(laserPowerMWattSlider.value( ));
     // laserIntensityField.value(laserIntensitySlider.value());
 } // draw()
 
@@ -317,7 +318,7 @@ function flyToAlphaCentauri() {
     // and 31,558,150 seconds per year
     var kmPerMm = 0.001; // 1 thousandth
     var secondsPerYear = 31557600.0; // with year = 365.25 days
-    estTravelTimeField.value( distToAlphaCentauri / (ship1.speedXkmPerSec * secondsPerYear * kmPerMm));
+    estTravelTimeField.value( distEarthToAlphaCentauriMm / (ship1.speedXkmPerSec * secondsPerYear * kmPerMm));
     missTargetByField.value( ship1.speedYkmPerSec  * secondsPerYear * kmPerMm );
 
 } // flyToAlphaCentauri
@@ -336,15 +337,15 @@ function myDiameterFieldListener() {
 // now that the slider value gets constantly drawn into field.
 // The validation code in here should get put somewhere useful, I 
 // suppose, though the slider is restricted to proper values, no?
-function myLaserFrequencyFieldListener() {
+function myLaserFrequencyTHzFieldListener() {
     // can also coerce "this.value()" from string to number by multiplying by 1
-    var newLaserFrequency = Number(this.value());
-    console.log("new laserFreq=" + newLaserFrequency);
+    var newLaserFrequencyTHz = Number(this.value());
+    console.log("new laserFreqTHz=" + newLaserFrequencyTHz);
     // "this" is the field that owns this listener 
     // gotta validate!!
-    if ((newLaserFrequency >= laserFrequencyMin) && (newLaserFrequency <= laserFrequencyMax)) {
-        laserFrequency = newLaserFrequency;
-        laserFrequencySlider.value(newLaserFrequency);
+    if ((newLaserFrequencyTHz >= laserFrequencyTHzMin) && (newLaserFrequencyTHz <= laserFrequencyTHzMax)) {
+        laserFrequencyTHz = newLaserFrequencyTHz;
+        laserFrequencyTHzSlider.value(newLaserFrequencyTHz);
     }
 } // myLaserFrequencyFieldListener
 
@@ -354,17 +355,17 @@ function myLaserFrequencyFieldListener() {
 // now that the slider value gets constantly drawn into field.
 // The validation code in here should get put somewhere useful, I 
 // suppose, though the slider is restricted to proper values, no?
-function myLaserPowerFieldListener() {
+function myLaserPowerMWattFieldListener() {
     // can also coerce "this.value()" from string to number by multiplying by 1
-    var newLaserPowerMw = Number(this.value());
-    console.log("new laserPowMw=" + newLaserPowerMw);
+    var newLaserPowerMWatt = Number(this.value());
+    console.log("new laserPowMWatt=" + newLaserPowerMWatt);
     // "this" is the field that owns this listener 
     // gotta validate!!
-    if ((newLaserPowerMw >= laserPowerMinMw) && (newLaserPowerMw <= laserPowerMaxMw)) {
-        laserPowerMw = newLaserPowerMw;
-        laserPowerSlider.value(newLaserPowerMw);
+    if ((newLaserPowerMWatt >= laserPowerMWattMin) && (newLaserPowerMWatt <= laserPowerMWattMax)) {
+        laserPowerMWatt = newLaserPowerMWatt;
+        laserPowerMWattSlider.value(newLaserPowerMWatt);
     }
-} // myLaserPowerFieldListener
+} // myLaserPowerMWattFieldListener
 
 
 // following is a bit useless because the field isn't really typable
