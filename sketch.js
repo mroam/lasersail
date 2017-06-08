@@ -22,9 +22,14 @@ var launchButton;
 // results
 var estTravelTimeField;
 var missTargetByField;
+var speedXKmPerSecFieldField;
 
 
-// constants, from wolframalpha.com
+// constants, 
+var kmPerMm = 0.001; // 1 thousandth
+var secondsPerYear = 31557600.0; // with year = 365.25 days
+
+// constants from wolframalpha.com
 var cMmPerSec = 299.792; // in Mm/sec, = 299,792km/s = 299792000m/s.
 var cKmPerSec = 299792;
 // hmmm, is javascript going to be able to handle the precision??
@@ -71,6 +76,7 @@ var laserCostPerWatt = 1.0; // ?? for game
 
 // simulation model
 var ship1; // gets created in "setup()"
+var shipStartingSpeedXKmPerSec = 10; // assume we give ships a starting shove
 var locations = []; // will be a history of the step-by-step locations of the ship
 var moneyAvail = 1000.0; // for sailsize, onboard fuel, laser-burn-fuel (choose vertex angle and power and burnDuration)
 
@@ -100,12 +106,12 @@ var SailCraft = {
 	
     reflectivity: 0.9, // percent, approx (40 year mission article by ? uses ~0.87 (87%))
 
-    x: 0.0, // loc of ctr of mass, km fr Earth to A.C. along travel path
-    y: 0.0, // loc of ctr of mass, off of path to A.C
+    xKm: 0.0, // loc of ctr of mass, km fr Earth to A.C. along travel path
+    yKm: 0.0, // loc of ctr of mass, off of path to A.C
 
-    speedXkmPerSec: 10.0, // starting speed, km/sec straight toward alpha centauri
+    speedXKmPerSec: shipStartingSpeedXKmPerSec, // starting speed, km/sec straight toward alpha centauri
 	// note: iss is orbiting at 7.6 km/sec, so sailcraft launched from orbit could be a bit faster.
-    speedYkmPerSec: 0.0, // km/sec off path to alpha c.
+    speedYKmPerSec: 0.0, // km/sec off path to alpha c.
 
     angleOfCraft: 0, // aka theta, craft's turn in degrees with 0
     // being directly on path to AC
@@ -121,14 +127,14 @@ var SailCraft = {
 
 
 SailCraft.sayStuff = function () {
-    console.log("ship1's distance from earth is " + this.x + ", and my speedXkmPerSec toward Alpha C. is: " + this.speedXkmPerSec + " km/sec");
+    console.log("ship1's distance from earth is " + this.xKm + "Km, and my speedXKmPerSec toward Alpha C. is: " + this.speedXKmPerSec + " km/sec");
 };
 
 
 SailCraft.flyALittle = function (secondsSincePrevMove) {
     // this method will belong to ship1 aka "this"
-    // speedXkmPerSec and speedYkmPerSec are in km/sec
-    this.x = this.x + (this.speedXkmPerSec * secondsSincePrevMove);
+    // speedXKmPerSec and speedYKmPerSec are in km/sec
+    this.xKm = this.xKm + (this.speedXKmPerSec * secondsSincePrevMove);
     // use set/get so speed limits are enforced!
     
     // var laserPowerMw = setByUser 
@@ -158,22 +164,22 @@ SailCraft.flyALittle = function (secondsSincePrevMove) {
 // Note: force = m * a, "m" is in kg, "a" is m/sec^2
 // "Work" is done when a force is applied through a distance
 
-    this.setspeedXkmPerSec(this.speedXkmPerSec + accell);
-		   // was this.speedXkmPerSec + (this.laserFakePowerPerSec * secondsSincePrevMove)); 
+    this.setspeedXKmPerSec(this.speedXKmPerSec + accell);
+		   // was this.speedXKmPerSec + (this.laserFakePowerPerSec * secondsSincePrevMove)); 
     // can I call other functions, e.g. 
-    //     this.speedXkmPerSec += (this.laser() * secondsSincePrevMove);
+    //     this.speedXKmPerSec += (this.laser() * secondsSincePrevMove);
 };
 
 //
 
-SailCraft.setspeedXkmPerSec = function ( newspeedXkmPerSec ) {
+SailCraft.setspeedXKmPerSec = function ( newspeedXKmPerSec ) {
 	// speedX and newSpeedX should be in Km/sec, and (absolute value) should be less than light speed!
-	if (Math.abs(newspeedXkmPerSec) > cKmPerSec) {
-		console.log("Ship1 wants newSpeed " + newspeedXkmPerSec + "Km/Sec which is faster than light (" + cKmPerSec + " Km/Sec). Denied.");
+	if (Math.abs(newspeedXKmPerSec) > cKmPerSec) {
+		console.log("Ship1 wants newSpeed " + newspeedXKmPerSec + "Km/Sec which is faster than light (" + cKmPerSec + " Km/Sec). Denied.");
 	} else {
-		this.speedXkmPerSec = newspeedXkmPerSec;
+		this.speedXKmPerSec = newspeedXKmPerSec;
 	}
-}; // SailCraft.setspeedXkmPerSec( )
+}; // SailCraft.setspeedXKmPerSec( )
 
 
 
@@ -183,7 +189,7 @@ SailCraft.crossSection = function () {
 };
 
 SailCraft.distanceFromLaserKm = function () {
-	return this.x;  // ??
+	return this.xKm;  // ??
 	// cheap first attempt, inaccurate if laser moves and if "y" is non zero
 };
 
@@ -264,20 +270,25 @@ function setup() {
     // results
     estTravelTimeField = createInput('');
     estTravelTimeField.parent("estTravelTimeField");
-    estTravelTimeField.size(70);/* length (in pix?)*/
+    estTravelTimeField.size(140);/* length (in pix?) */
+    
     missTargetByField = createInput('');
     missTargetByField.parent("missTargetByField");
-    missTargetByField.size(70);/* length (in pix?)*/
+    missTargetByField.size(140);/* length (in pix?) */
+    
+    speedXKmPerSecField = createInput('');
+    speedXKmPerSecField.parent("speedXKmPerSecField");
+    speedXKmPerSecField.size(140); /* length (in pix?) */
 
     ship1 = setupSailCraft(0, 0);/*startloc*/
 } // setup()
 
 
-function setupSailCraft(inx, iny) {
+function setupSailCraft(inxKm, inyKm) {
     var temp = Object.create(SailCraft);
     // do stuff
-    temp.x = inx;
-    temp.y = iny;
+    temp.xKm = inxKm;
+    temp.yKm = inyKm;
     return temp;
 } // setupSailCraft()
 
@@ -299,27 +310,28 @@ function draw() {
 // This will 
 // 
 function flyToAlphaCentauri() {
+    // this should reset ALL starter values
+    ship1.speedXKmPerSec = shipStartingSpeedXKmPerSec;
     // we start at position 0, and alpha centauri is at pos (4.7 light years in meters)
     var pos = 0; // []eventually this will be x,y,z triple
     locations.push(pos);
     // for 
     bgColor = color(random(255), random(255), random(255)); // just to see if button worked
 
-    var secsBetweenMoves = 1;
+    var secsBetweenMoves = 0.01;
     ship1.sayStuff(); // goes to console
     var count;
-    for (count = 0; count < 10; ++count) {
+    for (count = 0; count < 100; ++count) {
         //document.write("Current Count : " + count + "<br />");
         ship1.flyALittle(secsBetweenMoves);
         ship1.sayStuff(); // goes to browser console (in safari activate menu Develop:ShowWebInspector)
     }
     // distToAlphaCentauri is in Mm (megameters = million meters)
-    // ship1 speedXkmPerSec is in km/sec so km is 1000 times smaller than Mm)
+    // ship1 speedXKmPerSec note km is 1000 times smaller than Mm)
     // and 31,558,150 seconds per year
-    var kmPerMm = 0.001; // 1 thousandth
-    var secondsPerYear = 31557600.0; // with year = 365.25 days
-    estTravelTimeField.value( distEarthToAlphaCentauriMm / (ship1.speedXkmPerSec * secondsPerYear * kmPerMm));
-    missTargetByField.value( ship1.speedYkmPerSec  * secondsPerYear * kmPerMm );
+    estTravelTimeField.value( distEarthToAlphaCentauriMm / (ship1.speedXKmPerSec * secondsPerYear * kmPerMm));
+    missTargetByField.value( ship1.speedYKmPerSec  * secondsPerYear * kmPerMm );
+    speedXKmPerSecField.value( ship1.speedXKmPerSec );
 
 } // flyToAlphaCentauri
 
