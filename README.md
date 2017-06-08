@@ -21,6 +21,9 @@ with headers that allow it to include javascript and run online.
 (PS: alternative address that doesn't refresh often, for heavy duty high traffic:
 https://cdn.rawgit.com/mroam/lasersail/44698f09/index.html
 
+Bugs:
+[ ] "Launch" button is using data from previous run; why aren't numbers getting reset by launch??
+
 More ideas:
 [ ] Increasing price of increasing laser power: should not go up linearly!
 [ ] Starting laser freq/power settings could alter color of starting circle(s)!
