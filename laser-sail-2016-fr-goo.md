@@ -49,7 +49,7 @@ source: quoted in https://www.quora.com/If-I-point-a-laser-at-a-window-of-the-IS
 
 =========== Materials Data:
 
-[Mylar[(http://usa.dupontteijinfilms.com/informationcenter/downloads/Physical_And_Thermal_Properties.pdf)
+[Mylar](http://usa.dupontteijinfilms.com/informationcenter/downloads/Physical_And_Thermal_Properties.pdf)
 http://www.sciencedirect.com/science/article/pii/135901979190127N
 
 
