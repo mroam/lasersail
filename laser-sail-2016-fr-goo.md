@@ -65,6 +65,8 @@ https://www.amazon.com/Star-Ark-Self-Sustaining-Spaceship-Springer-ebook/dp/B01N
 
 - [ ] NASA study of Guidance & Navigation Control for solar sails: ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20040121136.pdf
 
+=========== why does following text get large??
+
 =========== Possible simulation systems/languages:
 
 -- [Mathematica](https://www.wolfram.com) (we have school license, for classrooms, students and teachers— can have home installs—and it can run in a web browser).
