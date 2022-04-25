@@ -5,10 +5,10 @@ Home:
 
 Project to design a spacecraft with a sail pushed by laser for traveling to Alpha Centauri
 Variables
-	--different laser wattages
-	--solar sail materials/gemoetries/shapes
-	--beyond solar system
-	--...
+--different laser wattages
+--solar sail materials/gemoetries/shapes
+--beyond solar system
+--...
 starter p5 code 
  is live now on [mike's lasersail github](https://github.com/mroam/lasersail/blob/master/index.html)
 account instead of google to hold our documents, links, models, etc...
@@ -16,11 +16,11 @@ account instead of google to hold our documents, links, models, etc...
 =========== GUI:
 Thoughts about what users see; how they understand and control what is going on.
 How many of (DJR's) 6 basic drawings can we use for GUI? {first 3 are raw data) (
-	--Who/What=portrait; 
-	--hoWmuch=chart; Where=map;   
-	--When=timeline;
-	--How=flowchart/cause&effect (mechanism?); 
-	--Why=summary/story/equation/deduction & prediction (/original causality?))
+--Who/What=portrait; 
+--hoWmuch=chart; Where=map;   
+--When=timeline;
+--How=flowchart/cause&effect (mechanism?); 
+--Why=summary/story/equation/deduction & prediction (/original causality?))
 
 =========== Interactions:
 
@@ -64,20 +64,19 @@ https://www.nytimes.com/2012/11/25/opinion/sunday/catching-up-with-the-planet-hu
 https://www.amazon.com/Star-Ark-Self-Sustaining-Spaceship-Springer-ebook/dp/B01N0DKOVE/ref=as_li_ss_il?s=books&ie=UTF8&qid=1482786966&sr=1-1&keywords=star+ark+rachel+armstrong&linkCode=li2&tag=centadream0b-20&linkId=4dad78476119377785fe11e605223789
 
 - [ ] NASA study of Guidance & Navigation Control for solar sails: ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20040121136.pdf
-
+- [ ] 
 =========== Possible simulation systems/languages:
 
-	-- [Mathematica](https://www.wolfram.com)
-(we have school license, for classrooms, students and teachers— can have home installs—and it can run in a web browser).
-	-- ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20040121136.pdf
-	-- https://catalog.data.gov/dataset/comprehensive-solar-sail-simulation-project
-	-- ccar.colorado.edu/asen5050/projects/projects_2007/burkert_proj/
-	-- GMAT NASA Simulator: http://gmatcentral.org  
-	-- Orbit calculating spreadsheet: https://docs.google.com/spreadsheets/d/1RlbS3bZKIh7zYJ_UpbvrOCry8cT7SDfa0h4JhCzqfGY/edit#gid=0
-	-- http://www.georgedishman.f2s.com/solar/Calculator.html 
-	-- [Stella Pro or iThink software from iseesystems.com](https://www.iseesystems.com/store/products/)
+-- [Mathematica](https://www.wolfram.com) (we have school license, for classrooms, students and teachers— can have home installs—and it can run in a web browser).
+-- ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20040121136.pdf
+-- https://catalog.data.gov/dataset/comprehensive-solar-sail-simulation-project
+-- ccar.colorado.edu/asen5050/projects/projects_2007/burkert_proj/
+-- GMAT NASA Simulator: http://gmatcentral.org  
+-- Orbit calculating spreadsheet: https://docs.google.com/spreadsheets/d/1RlbS3bZKIh7zYJ_UpbvrOCry8cT7SDfa0h4JhCzqfGY/edit#gid=0
+-- http://www.georgedishman.f2s.com/solar/Calculator.html 
+-- [Stella Pro or iThink software from iseesystems.com](https://www.iseesystems.com/store/products/)
 for simulating dynamic systems (education prices (603) 448 - 4990; sales@iseesystems.com, 30 day free trial avail;). Hmm, I'm not sure which version of their software we want nor what it costs.
-	-- Cole C. suggests using "ansys.com" or a ["multiphysics" tool.](https://en.wikipedia.org/wiki/Multiphysics_simulation)
+-- Cole C. suggests using "ansys.com" or a ["multiphysics" tool.](https://en.wikipedia.org/wiki/Multiphysics_simulation)
  (Note: wikipedia page about [CAE (computer aided engineering)](https://en.wikipedia.org/wiki/Computer-aided_engineering)
  lists multiple open-source programs in the purple "CAE Software" box at the bottom of the page. (Press the "[show]" button if the list doesn't show.))
 ===========
