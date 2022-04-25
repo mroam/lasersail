@@ -64,7 +64,7 @@ https://www.nytimes.com/2012/11/25/opinion/sunday/catching-up-with-the-planet-hu
 https://www.amazon.com/Star-Ark-Self-Sustaining-Spaceship-Springer-ebook/dp/B01N0DKOVE/ref=as_li_ss_il?s=books&ie=UTF8&qid=1482786966&sr=1-1&keywords=star+ark+rachel+armstrong&linkCode=li2&tag=centadream0b-20&linkId=4dad78476119377785fe11e605223789
 
 - [ ] NASA study of Guidance & Navigation Control for solar sails: ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20040121136.pdf
-- [ ] 
+
 =========== Possible simulation systems/languages:
 
 -- [Mathematica](https://www.wolfram.com) (we have school license, for classrooms, students and teachers— can have home installs—and it can run in a web browser).
