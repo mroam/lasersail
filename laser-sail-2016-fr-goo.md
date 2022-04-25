@@ -65,11 +65,8 @@ https://www.amazon.com/Star-Ark-Self-Sustaining-Spaceship-Springer-ebook/dp/B01N
 
 - [ ] NASA study of Guidance & Navigation Control for solar sails: ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20040121136.pdf
 
-=========== why does following text get large??
-
 =========== Possible simulation systems/languages:
 
--- [Mathematica](https://www.wolfram.com)
 -- [Mathematica](https://www.wolfram.com) (we have school license, for classrooms, students and teachers— can have home installs—and it can run in a web browser).
 -- ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20040121136.pdf
 -- https://catalog.data.gov/dataset/comprehensive-solar-sail-simulation-project
@@ -81,19 +78,3 @@ https://www.amazon.com/Star-Ark-Self-Sustaining-Spaceship-Springer-ebook/dp/B01N
 for simulating dynamic systems (education prices (603) 448 - 4990; sales@iseesystems.com, 30 day free trial avail;). Hmm, I'm not sure which version of their software we want nor what it costs.
 -- Cole C. suggests using "ansys.com" or a ["multiphysics" tool.](https://en.wikipedia.org/wiki/Multiphysics_simulation)
  (Note: wikipedia page about [CAE (computer aided engineering)](https://en.wikipedia.org/wiki/Computer-aided_engineering) lists multiple open-source programs in the purple "CAE Software" box at the bottom of the page. (Press the "[show]" button if the list doesn't show.))
- 
-=========== Possible simulation systems/languages:
-
--- [Mathematica](https://www.wolfram.com) (we have school license, for classrooms, students and teachers— can have home installs—and it can run in a web browser).
--- ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20040121136.pdf
--- https://catalog.data.gov/dataset/comprehensive-solar-sail-simulation-project
--- ccar.colorado.edu/asen5050/projects/projects_2007/burkert_proj/
--- GMAT NASA Simulator: http://gmatcentral.org  
--- Orbit calculating spreadsheet: https://docs.google.com/spreadsheets/d/1RlbS3bZKIh7zYJ_UpbvrOCry8cT7SDfa0h4JhCzqfGY/edit#gid=0
--- http://www.georgedishman.f2s.com/solar/Calculator.html 
--- [Stella Pro or iThink software from iseesystems.com](https://www.iseesystems.com/store/products/)
-for simulating dynamic systems (education prices (603) 448 - 4990; sales@iseesystems.com, 30 day free trial avail;). Hmm, I'm not sure which version of their software we want nor what it costs.
--- Cole C. suggests using "ansys.com" or a ["multiphysics" tool.](https://en.wikipedia.org/wiki/Multiphysics_simulation)
- (Note: wikipedia page about [CAE (computer aided engineering)](https://en.wikipedia.org/wiki/Computer-aided_engineering)
- lists multiple open-source programs in the purple "CAE Software" box at the bottom of the page. (Press the "[show]" button if the list doesn't show.))
-===========
