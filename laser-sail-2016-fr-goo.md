@@ -76,7 +76,7 @@ rather than pass by Alpha Centauri system
 
 - [ ] centauriDreams.org and book ["Centauri Dreams: Imagining and Planning Interstellar Exploration"](https://www.amazon.com/dp/038700436X/?tag=centauridream-20) by [Paul Gilster](https://www.centauri-dreams.org/9-2/)
 
--- (solar sails! Described by Berkeley astronomy prof and exo-planet finder Geoff Marcy, [nytimes 2012 Nov 25] (https://www.nytimes.com/2012/11/25/opinion/sunday/catching-up-with-the-planet-hunter-geoff-marcy.html)
+-- solar sails! Described by Berkeley astronomy prof and exo-planet finder Geoff Marcy, [nytimes 2012 Nov 25] (https://www.nytimes.com/2012/11/25/opinion/sunday/catching-up-with-the-planet-hunter-geoff-marcy.html)
 
 -- (Gilster also recommends book [Star-Ark-Self-Sustaining-Spaceship edited by Rachel Armstrong.](https://www.amazon.com/Star-Ark-Self-Sustaining-Spaceship-Springer-ebook/dp/B01N0DKOVE/ref=as_li_ss_il?s=books&ie=UTF8&qid=1482786966&sr=1-1&keywords=star+ark+rachel+armstrong&linkCode=li2&tag=centadream0b-20&linkId=4dad78476119377785fe11e605223789)
 
