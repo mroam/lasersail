@@ -5,10 +5,12 @@ Home:
 
 Project to design a spacecraft with a sail pushed by laser for traveling to Alpha Centauri
 Variables
+
 --different laser wattages
 --solar sail materials/gemoetries/shapes
 --beyond solar system
 --...
+
 starter p5 code 
  is live now on [mike's lasersail github](https://github.com/mroam/lasersail/blob/master/index.html)
 account instead of google to hold our documents, links, models, etc...
@@ -16,6 +18,7 @@ account instead of google to hold our documents, links, models, etc...
 =========== GUI:
 Thoughts about what users see; how they understand and control what is going on.
 How many of (DJR's) 6 basic drawings can we use for GUI? {first 3 are raw data) (
+
 --Who/What=portrait; 
 --hoWmuch=chart; Where=map;   
 --When=timeline;
